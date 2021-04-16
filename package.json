@@ -1,0 +1,15 @@
+{
+  "name": "BoreDoomFrontend",
+  "version": "1.0.0",
+  "description": "Frontend fuer Boredoom",
+  "main": "index.js",
+  "repository": "https://github.com/HeroxHeruxum/BoreDoomFrontend.git",
+  "author": "Herox <stanfalkenrich@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "typescript": "^4.2.4"
+  }
+}
