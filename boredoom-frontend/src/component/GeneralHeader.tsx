@@ -6,8 +6,6 @@ import Button from '@material-ui/core/Button';
 export function GeneralHeader(): JSX.Element {
     let history = useHistory();
 
-    function handleClick() {
-    }
     return (
         <div style={{backgroundColor: "#273661", width: "100%", top: 0, display: "inline-flex"}}>
             <div style={{left:"0px"}}>
