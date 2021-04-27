@@ -1,10 +1,12 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
 import {CustomButton} from "./CustomButton";
+import {History} from "history";
 
+interface HeaderProps {
+    history: History;
+}
 
-export function GeneralHeader(): JSX.Element {
-    let history = useHistory();
+export function GeneralHeader(props:HeaderProps): JSX.Element {
 
     return (
         <div style={{backgroundColor: "#273661", width: "100%", top: 0, display: "inline-flex"}}>
@@ -14,16 +16,16 @@ export function GeneralHeader(): JSX.Element {
             <div style={{position: "absolute", right: "0px"}}>
 
                 <CustomButton text="Fragenkatalog" clickHandler={() => {
-                    history.push('/fragenkatalog')
+                    props.history.push('/fragenkatalog')
                 }}/>
                 <CustomButton text="Glückstreffer" clickHandler={() => {
-                    history.push('/glueckstreffer')
+                    props.history.push('/glueckstreffer')
                 }}/>
                 <CustomButton text="Merkliste" clickHandler={() => {
-                    history.push('/merkliste')
+                    props.history.push('/merkliste')
                 }}/>
                 <CustomButton text="Login" clickHandler={() => {
-                    history.push('/login')
+                    props.history.push('/login')
                 }}/>
             </div>
         </div>

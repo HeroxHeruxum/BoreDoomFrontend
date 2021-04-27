@@ -1,10 +1,15 @@
 import React from 'react';
 import {GeneralHeader} from "../component/GeneralHeader";
+import {History} from "history";
 
-export function MainPage(){
+interface MainPageProps {
+    history: History
+}
+
+export function MainPage(props:MainPageProps){
     return(
         <header>
-            <GeneralHeader/>
+            <GeneralHeader history={props.history}/>
         </header>
     );
 }
