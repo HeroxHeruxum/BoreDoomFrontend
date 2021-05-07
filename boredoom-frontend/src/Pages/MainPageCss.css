@@ -1,0 +1,35 @@
+.MainPageBody{
+    height: 100%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.Centered{
+    text-align: center;
+}
+.StartButtonContainer{
+    text-align: center;
+    padding-top: 10%;
+}
+.StartButton{
+    background-color: #273661;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.StickyFooter{
+    border-top: 1px solid #E7E7E7;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+}
+
+.StickyFooterContainer{
+    display: block;
+    height: 60px;
+    width: 100%;
+}
+

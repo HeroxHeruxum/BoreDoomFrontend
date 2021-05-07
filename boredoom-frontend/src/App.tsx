@@ -1,17 +1,18 @@
 import React from 'react';
 import {MainPage} from "./Pages/MainPage";
-import { createBrowserHistory } from 'history';
-import { Router, Route, Switch } from 'react-router'
+import {Route, Switch} from 'react-router'
+import {BrowserRouter} from "react-router-dom";
+import {QuestionPage} from "./Pages/QuestionPage";
 
 function App() {
-    const history = createBrowserHistory();
 
     return (
-        <Router history={ history }>
+        <BrowserRouter>
             <Switch>
-                <Route path={"/"} render={() => <MainPage/>}/>
+                <Route exact path={"/"} render={() => <MainPage/>}/>
+                <Route exact path={"/fragen"} render={()=> <QuestionPage/>}/>
             </Switch>
-        </Router>
+        </BrowserRouter>
     );
 }
 
