@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import "./MainPage.scss"
+import "./mainPage.scss"
 import {Header} from "../../components/header/header";
 import {Button} from "../../components/button/button";
 
