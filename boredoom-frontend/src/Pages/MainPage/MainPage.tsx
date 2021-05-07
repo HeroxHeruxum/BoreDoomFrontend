@@ -1,6 +1,8 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
-import "./MainPageCss.css"
+import "./MainPage.scss"
+import {Header} from "../../components/header/header";
+import {Button} from "../../components/button/button";
 
 
 export function MainPage() {
@@ -8,6 +10,7 @@ export function MainPage() {
     return (
         <>
             <header>
+                <Header/>
             </header>
             <body className={'MainPageBody'}>
             <h2 className={'Centered'}>Was ist BoreDoom?</h2>
@@ -22,15 +25,13 @@ export function MainPage() {
                 Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
             </p>
             <div className={'StartButtonContainer'}>
-                <button
-                    className={'startButton'}
+                <Button
+                    title={"Start"}
+                    type={"standard"}
                     onClick={() => {
                         history.push("/fragen")
                     }}
-                >
-                    Start
-                </button>
-
+                />
             </div>
             <div>
                 <div className={'StickyFooterContainer'}/>

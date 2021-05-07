@@ -1,9 +1,12 @@
 import React from 'react';
-import "./MainPageCss.css"
+import "./MainPage/MainPage.scss"
+import {Header} from "../components/header/header";
 
 
 export function QuestionPage() {
     return (
-        <h2>IMPRESSUM!</h2>
+        <header>
+            <Header/>
+        </header>
     );
 }
