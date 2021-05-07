@@ -1,8 +1,8 @@
 import React from 'react';
-import {MainPage} from "./Pages/MainPage/MainPage";
+import {MainPage} from "./pages/MainPage/MainPage";
 import {Route, Switch} from 'react-router'
 import {BrowserRouter} from "react-router-dom";
-import {QuestionPage} from "./Pages/QuestionPage";
+import {QuestionPage} from "./pages/QuestionPage";
 
 function App() {
 
