@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import "./MainPageCss.css"
 
@@ -23,14 +22,14 @@ export function MainPage() {
                 Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
             </p>
             <div className={'StartButtonContainer'}>
-                <Button
-                    className={'StartButton'}
+                <button
+                    className={'startButton'}
                     onClick={() => {
                         history.push("/fragen")
                     }}
                 >
                     Start
-                </Button>
+                </button>
 
             </div>
             <div>

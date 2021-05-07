@@ -11,8 +11,8 @@
     text-align: center;
     padding-top: 10%;
 }
-.StartButton{
-    background-color: #273661;
+.startButton{
+    background: #273661;
     color: white;
     padding-left: 50px;
     padding-right: 50px;
