@@ -1,0 +1,45 @@
+@import "../../styles/sizes.scss";
+@import "../../styles/colors.scss";
+
+
+.button {
+    box-sizing: border-box;
+    background-color: $darkBlue;
+    color: $white;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $darkBlueHover;
+    }
+
+    &:active {
+        background-color: $darkBlueActive;
+    }
+
+    &.standardButton {
+        border-radius: $tinySmall;
+        padding: $tinySmall $large;
+
+        &.disabled {
+            background-color: $grey;
+
+            &:hover, &:active {
+                background-color: $grey;
+            }
+        }
+    }
+
+    &.headerButton {
+        padding: $small;
+
+        &.disabled {
+            &:hover, &:active {
+                background-color: $darkBlue;
+            }
+        }
+    }
+
+    &.disabled {
+        cursor: default;
+    }
+}
