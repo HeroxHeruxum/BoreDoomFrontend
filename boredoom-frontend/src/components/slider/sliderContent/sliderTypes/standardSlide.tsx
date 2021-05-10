@@ -2,7 +2,6 @@ import React from "react";
 import {Button} from "../../../button/button";
 import "./standardSlide.scss";
 import {FetchedQuestions} from "../../../../misc/types";
-import {Stream} from "stream";
 
 /**
  * Dies ist eine Lower Order Component zur {slider.tsx}
@@ -22,21 +21,26 @@ export function StandardSlide(props: standardSlideProps): JSX.Element {
     }
 
     return (
-        <div className={'FragenContainer'}>
-            <h2>Frage Nummer: {props.currentCount}</h2>
-            <div className={'RadioGroup'}>
+        <div>
+            <h1>Frage Nummer: {props.currentCount}</h1>
 
-                {props.fetchedData.answers.map(answer => (<><input type="radio" value={answer}
-                                                                   name="question"/> {answer}</>))}
+            <div className={'FragenContainer'}>
+                <h2>{props.fetchedData.text}</h2>
+                <div className={'RadioGroup'}>
+
+                    {props.fetchedData.choices.map(answer => (<><input type="radio" value={answer}
+                                                                       name="question"/> {answer}</>))}
+                </div>
+
+                <div className={'ButtonContainer'}>
+                    <Button type={"standard"} title={"Increase"} onClick={() => {
+                        increaseCount()
+                    }}/>
+                </div>
+
             </div>
-
-            <div className={'ButtonContainer'}>
-                <Button type={"standard"} title={"Increase"} onClick={() => {
-                    increaseCount()
-                }}/>
-            </div>
-
         </div>
+
 
     );
 }

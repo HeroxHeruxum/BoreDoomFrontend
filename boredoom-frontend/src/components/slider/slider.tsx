@@ -18,7 +18,10 @@ export function Slider(): JSX.Element {
     const [error, setError] = useState(null)
 
     const mockData: FetchedQuestions = {
-        answers: ['Antwort1','Antwort2','Antwort3']
+        id:1,
+        text: "Frage aller Fragen?",
+        type: "Einfachauswahl",
+        choices: ['Antwort1','Antwort2','Antwort3']
     }
 
     //Handler-Funktionene
@@ -57,6 +60,6 @@ export function Slider(): JSX.Element {
     }
 
     return (
-        getComponent("Einfachauswahl")
+        getComponent(mockData.type)
         );
 }

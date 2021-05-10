@@ -1,3 +1,6 @@
 export type FetchedQuestions = {
-    answers: Array<string>
+    id:number
+    text:string
+    type:string
+    choices: Array<string>
 }
