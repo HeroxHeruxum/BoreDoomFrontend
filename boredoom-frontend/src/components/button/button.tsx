@@ -7,7 +7,7 @@ type ButtonType = "standard" | "header";
 interface ButtonProps {
     type: ButtonType,
     disabled?: boolean,
-    title: string,
+    title: string | JSX.Element,
     onClick: (event: React.MouseEvent<HTMLDivElement>) => void
 }
 

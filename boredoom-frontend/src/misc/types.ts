@@ -4,3 +4,8 @@ export type FetchedQuestions = {
     type:string
     choices: Array<string>
 }
+
+export type Answers = {
+    id: number
+    selectedChoices: Array<string>
+}
