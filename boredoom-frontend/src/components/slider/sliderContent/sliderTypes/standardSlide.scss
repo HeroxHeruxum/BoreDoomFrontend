@@ -1,0 +1,20 @@
+.FragenContainer {
+  margin-top: 5%;
+  height: 25%;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.ButtonContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 10%;
+}
+.RadioGroup{
+  width: 20%;
+  -webkit-column-count: 1;
+  -moz-column-count:1;
+  column-count: 1;
+}
