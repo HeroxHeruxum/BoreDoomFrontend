@@ -1,12 +1,27 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
 import './slider.scss'
-import {Button} from "../button/button";
+import {StandardSlide} from "./sliderContent/sliderTypes/standardSlide";
+
+/**
+ * Diese Klasse ist eine Higher Order Component, welche Den State für den Fragenslider beinhaltet.
+ * Ebenso ist sie für das Fetchen der Daten verantwortlich! Der State wird über handlerfunktionen
+ * manipuliert, diese werden in die Lower Order Components übergeben um ihnen die manipulation des
+ * States zu ermöglichen.
+ * @constructor
+ */
 
 export function Slider(): JSX.Element {
+    //Konfiguartion des States
     const [count, setCount] = useState(1)
     const [fetchedData, setFetchedData] = useState(null)
     const [error, setError] = useState(null)
 
+    //Handler-Funktionene
+    const countChangeHandler =(newCount: number) =>{
+        setCount(newCount)
+    }
+
+    //Daten-Fetch
     const getData = (id: string) => {
         fetch("server/question/" + count)
             .then(res => res.json())
@@ -17,15 +32,26 @@ export function Slider(): JSX.Element {
             })
     }
 
+    //Logik zum Entscheiden welche Art der Frage geladen wird
+    const getComponent = (type: string): JSX.Element => {
+        if (type === "Mehrfachauswahl") {
+            return (
+                <>
+                </>
+            );
+        }
+        if (type === "Slider") {
+            return (
+                <>
+                </>
+            )
+        }
+        return (
+            <StandardSlide currentCount={count} countChangeHandler={countChangeHandler}/>
+        )
+    }
+
     return (
-        <div>
-            <h2>Frage Nr {count}</h2>
-            <input type="radio" value="Male" name="gender" /> Male
-            <input type="radio" value="Female" name="gender" /> Female
-            <input type="radio" value="Other" name="fragen" /> Other
-            <Button type={"standard"} title={"Speichern"} onClick={() => {
-                setCount(count + 1)
-            }}/>
-        </div>
-    );
+        getComponent("Einfachauswahl")
+        );
 }
