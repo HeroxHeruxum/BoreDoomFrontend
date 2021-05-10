@@ -37,7 +37,7 @@ export function StandardSlide(props: standardSlideProps): JSX.Element {
                 <h2>{props.fetchedData.text}</h2>
                 <div className={'RadioGroup'}>
                     {props.fetchedData.choices.map(answer => (<><input type="radio" value={answer}
-                                                                       name="question"/> {answer}</>))}
+                                                                       name="question"/> {answer} <br/> </>))}
                 </div>
                 <div className={'ButtonContainer'}>
                     <Button type={"header"} title={<ArrowBackIosIcon/>} onClick={() => {
