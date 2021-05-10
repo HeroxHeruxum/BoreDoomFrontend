@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom";
 import "./mainPage.scss"
 import {Header} from "../../components/header/header";
 import {Button} from "../../components/button/button";
+import {Impressum} from "../../components/impressum/impressum";
 
 
 export function MainPage() {
@@ -33,12 +34,7 @@ export function MainPage() {
                     }}
                 />
             </div>
-            <div>
-                <div className={'StickyFooterContainer'}/>
-                <div className={'StickyFooter'}>
-                    <h2>IMPRESSUM!</h2>
-                </div>
-            </div>
+            <Impressum/>
             </body>
         </>
     );
