@@ -3,6 +3,7 @@ import './slider.scss'
 import {StandardSlide} from "./sliderContent/sliderTypes/standardSlide";
 import {Answers, FetchedQuestions} from "../../misc/types";
 import {MultiSelectSlide} from "./sliderContent/sliderTypes/multiselectSlide";
+import {InputSlide} from "./sliderContent/sliderTypes/inputSlide";
 
 /**
  * This classe is a Higher Order Component, wich controls the State of the slide-Lower-Order-Components.
@@ -23,7 +24,7 @@ export function Slider(): JSX.Element {
     const mockData: FetchedQuestions = {
         id: 1,
         text: "Frage aller Fragen?",
-        type: "Mehrfachauswahl",
+        type: "Slider",
         choices: ['Antwort1', 'Antwort2', 'Antwort3']
     }
 
@@ -59,8 +60,13 @@ export function Slider(): JSX.Element {
         }
         if (type === "Slider") {
             return (
-                <>
-                </>
+                <InputSlide
+                    currentCount={count}
+                    countChangeHandler={countChangeHandler}
+                    fetchedData={mockData}
+                    questionCount={8}
+                    answerHandler={answerHandler}
+                />
             )
         }
         return (
