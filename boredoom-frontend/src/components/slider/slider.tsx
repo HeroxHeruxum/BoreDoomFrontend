@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import './slider.scss'
 import {StandardSlide} from "./sliderContent/sliderTypes/standardSlide";
-import {FetchedQuestions} from "../../misc/types";
+import {Answers, FetchedQuestions} from "../../misc/types";
 
 /**
  * Diese Klasse ist eine Higher Order Component, welche Den State für den Fragenslider beinhaltet.
@@ -16,6 +16,8 @@ export function Slider(): JSX.Element {
     const [count, setCount] = useState(1)
     const [fetchedData, setFetchedData] = useState(null)
     const [error, setError] = useState(null)
+    const [questionCount, setQuestionCount] = useState(8)
+    const [answer,setAnswer] = useState({})
 
     const mockData: FetchedQuestions = {
         id:1,
@@ -27,6 +29,9 @@ export function Slider(): JSX.Element {
     //Handler-Funktionene
     const countChangeHandler =(newCount: number) =>{
         setCount(newCount)
+    }
+    const answerHandler = (newAnswers: Answers):void => {
+        setAnswer(newAnswers)
     }
 
     //Daten-Fetch
@@ -55,7 +60,13 @@ export function Slider(): JSX.Element {
             )
         }
         return (
-            <StandardSlide currentCount={count} countChangeHandler={countChangeHandler} fetchedData={mockData}/>
+            <StandardSlide
+                currentCount={count}
+                countChangeHandler={countChangeHandler}
+                fetchedData={mockData}
+                questionCount={8}
+                answerHandler={answerHandler}
+            />
         )
     }
 

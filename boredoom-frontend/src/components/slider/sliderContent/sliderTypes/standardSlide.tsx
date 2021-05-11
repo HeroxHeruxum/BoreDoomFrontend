@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "../../../button/button";
 import "./standardSlide.scss";
-import {FetchedQuestions} from "../../../../misc/types";
+import {FetchedQuestions, slideProps} from "../../../../misc/types";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
@@ -9,17 +9,13 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
  * Dies ist eine Lower Order Component zur {slider.tsx}
  */
 
-interface standardSlideProps {
-    currentCount: number
-    countChangeHandler: (count: number) => void
-    fetchedData: FetchedQuestions
 
-}
-
-export function StandardSlide(props: standardSlideProps): JSX.Element {
+export function StandardSlide(props: slideProps): JSX.Element {
 
     const increaseCount = (): void => {
-        props.countChangeHandler(props.currentCount + 1)
+        if (props.currentCount< props.questionCount){
+            props.countChangeHandler(props.currentCount + 1)
+        }
     }
     const decreaseCount = (): void => {
         //if abfrage, damit es keine Frage NR 0 gibt
@@ -30,21 +26,25 @@ export function StandardSlide(props: standardSlideProps): JSX.Element {
         }
     }
 
+    const setAnswer =():void =>{
+        props.answerHandler({id:1,selectedChoices:[]})
+        console.log('Ich funktioniere noch nicht !')
+    }
+
     return (
         <div>
             <h1 className={'h1style'}>Frage Nummer: {props.currentCount}</h1>
             <div className={'FragenContainer'}>
                 <h2>{props.fetchedData.text}</h2>
                 <div className={'RadioGroup'}>
-                    {props.fetchedData.choices.map(answer => (<><input type="radio" value={answer}
-                                                                       name="question"/> {answer} <br/> </>))}
+                    {props.fetchedData.choices.map(answer => (<><input type="radio" value={answer} name="question"/> {answer} <br/> </>))}
                 </div>
                 <div className={'ButtonContainer'}>
                     <Button type={"header"} title={<ArrowBackIosIcon/>} onClick={() => {
                         decreaseCount()
                     }}/>
                     <Button type={"header"} title={"Speichern"} onClick={() => {
-                        increaseCount()
+                        setAnswer()
                     }}/>
                     <Button type={"header"} title={<ArrowForwardIosIcon/>} onClick={() => {
                         increaseCount()
@@ -52,7 +52,5 @@ export function StandardSlide(props: standardSlideProps): JSX.Element {
                 </div>
             </div>
         </div>
-
-
     );
 }

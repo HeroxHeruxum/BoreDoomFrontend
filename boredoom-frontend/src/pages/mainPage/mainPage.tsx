@@ -30,7 +30,7 @@ export function MainPage() {
                     title={"Start"}
                     type={"standard"}
                     onClick={() => {
-                        history.push("/fragen")
+                        history.push("/questions")
                     }}
                 />
             </div>
