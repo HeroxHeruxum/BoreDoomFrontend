@@ -2,7 +2,7 @@ import React from 'react';
 import "../mainPage/mainPage.scss"
 import {Header} from "../../components/header/header";
 import {Impressum} from "../../components/impressum/impressum";
-import {Slider} from "../../components/slider/slider";
+import {QuestionSlideContainer} from "../../components/questionComponents/questionSlideContainer";
 
 
 export function QuestionPage(): JSX.Element {
@@ -12,7 +12,7 @@ export function QuestionPage(): JSX.Element {
                 <Header/>
             </header>
             <body>
-            <Slider/>
+            <QuestionSlideContainer/>
             <Impressum/>
             </body>
         </>

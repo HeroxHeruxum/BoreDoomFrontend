@@ -12,8 +12,14 @@ export type Answers = {
 
 export type slideProps = {
     currentCount: number
-    countChangeHandler: (count: number) => void
     fetchedData: FetchedQuestions
-    questionCount: number
-    answerHandler: (answers: Answers)=> void
+    navBar: JSX.Element
+    content: JSX.Element
+}
+
+export type navBarProps = {
+    backArrowFunction: ()=> void,
+    forwardArrowFunction: ()=> void,
+    middleButtonFunction: ()=> void,
+    middleButtonCaption: string
 }
