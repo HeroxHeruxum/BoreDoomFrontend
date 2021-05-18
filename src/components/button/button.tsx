@@ -8,15 +8,15 @@ interface ButtonProps {
     type: ButtonType,
     disabled?: boolean,
     title: string | JSX.Element,
-    onClick: (event: React.MouseEvent<HTMLDivElement>) => void
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 export function Button(props: ButtonProps) {
     const {type, disabled, title, onClick} = props;
 
     return (
-        <div className={`button ${type}Button ${disabled ? "disabled" : ""}`} onClick={onClick}>
+        <button className={`button ${type}Button ${disabled ? "disabled" : ""}`} onClick={onClick} disabled={disabled}>
             {title}
-        </div>
+        </button>
     )
 }
