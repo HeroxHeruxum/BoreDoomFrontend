@@ -18,12 +18,14 @@ export function QuestionSlideContainer(): JSX.Element {
         type: "Mehrfachauswahl",
         choices: ['Antwort1', 'Antwort2', 'Antwort3']
     }
+
     const question2: FetchedQuestions = {
         id: 2,
         text: "Frage aller Fragen?",
         type: "Einfachauswahl",
         choices: ['Antwort1', 'Antwort2', 'Antwort3']
     }
+
     const question3: FetchedQuestions = {
         id: 3,
         text: "Frage aller Fragen?",

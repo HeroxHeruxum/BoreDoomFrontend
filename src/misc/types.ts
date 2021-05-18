@@ -1,9 +1,9 @@
-import React from "react";
+import {MouseEvent} from "react";
 
 export type FetchedQuestions = {
-    id:number
-    text:string
-    type:string
+    id: number
+    text: string
+    type: string
     choices: Array<string>
 }
 
@@ -20,9 +20,9 @@ export type slideProps = {
 }
 
 export type navBarProps = {
-    backArrowFunction: ()=> void,
-    forwardArrowFunction: ()=> void,
-    middleButtonFunction: ()=> void,
+    backArrowFunction: () => void,
+    forwardArrowFunction: () => void,
+    middleButtonFunction: () => void,
     middleButtonCaption: string,
     forwardButtonDisabled: boolean,
     backwardButtonDisabled: boolean,
@@ -33,5 +33,20 @@ export type ButtonProps = {
     type: ButtonType,
     disabled?: boolean,
     title: string | JSX.Element,
-    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+    onClick: (event: MouseEvent<HTMLButtonElement>) => void
+}
+
+export type ResultComponentProps = {
+    imgUrl: string,
+    producerUrl: string,
+    title: string,
+    genre: string
+}
+
+export type Result ={
+    id: number,
+    imgUrl: string,
+    producerUrl: string,
+    title: string,
+    genre: string
 }
