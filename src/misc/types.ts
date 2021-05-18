@@ -21,5 +21,7 @@ export type navBarProps = {
     backArrowFunction: ()=> void,
     forwardArrowFunction: ()=> void,
     middleButtonFunction: ()=> void,
-    middleButtonCaption: string
+    middleButtonCaption: string,
+    forwardButtonDisabled: boolean,
+    backwardButtonDisabled: boolean,
 }

@@ -9,15 +9,22 @@ export function NavBar(props: navBarProps): JSX.Element {
 
     return (
         <div className={'ButtonContainer'}>
-            <Button type={"header"} title={<ArrowBackIosIcon/>} onClick={() => {
-                props.backArrowFunction()
-            }}/>
-            <Button type={"header"} title={props.middleButtonCaption} onClick={() => {
-                props.middleButtonFunction()
-            }}/>
-            <Button type={"header"} title={<ArrowForwardIosIcon/>} onClick={() => {
-                props.forwardArrowFunction()
-            }}/>
+            <Button
+                type={"header"}
+                title={<ArrowBackIosIcon/>}
+                onClick={() => {props.backArrowFunction()}}
+                disabled={props.backwardButtonDisabled}
+            />
+            <Button
+                type={"header"}
+                title={props.middleButtonCaption}
+                onClick={() => {props.middleButtonFunction()}}
+            />
+            <Button
+                type={"header"}
+                title={<ArrowForwardIosIcon/>} onClick={() => {props.forwardArrowFunction()}}
+                disabled={props.forwardButtonDisabled}
+            />
         </div>
     )
 }
