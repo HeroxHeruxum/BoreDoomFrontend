@@ -1,3 +1,5 @@
+import React from "react";
+
 export type FetchedQuestions = {
     id:number
     text:string
@@ -24,4 +26,12 @@ export type navBarProps = {
     middleButtonCaption: string,
     forwardButtonDisabled: boolean,
     backwardButtonDisabled: boolean,
+}
+export type ButtonType = "standard" | "header";
+
+export type ButtonProps = {
+    type: ButtonType,
+    disabled?: boolean,
+    title: string | JSX.Element,
+    onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }

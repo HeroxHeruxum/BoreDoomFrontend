@@ -32,6 +32,7 @@ export function QuestionSlideContainer(): JSX.Element {
     }
 
     const mockData: Array<FetchedQuestions> =[question1,question2,question3]
+
     //initiation of the state
     const [count, setCount] = useState(1)
     const [fetchedData, setFetchedData] = useState(mockData)
