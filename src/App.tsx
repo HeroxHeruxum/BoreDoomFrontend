@@ -4,6 +4,7 @@ import {Route, Switch} from 'react-router'
 import {BrowserRouter} from "react-router-dom";
 import {QuestionPage} from "./pages/questionPage/questionPage";
 import {ResultPage} from "./pages/resultPage/resultPage";
+import {FavouritesPage} from "./pages/favouritesPage/favouritesPage";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
                 <Route exact path={"/"} render={() => <MainPage/>}/>
                 <Route exact path={"/questions"} render={()=> <QuestionPage/>}/>
                 <Route exact path={"/results"} render={()=> <ResultPage/>}/>
+                <Route exact path={"/bookmarks"} render={()=> <FavouritesPage/>}/>
             </Switch>
         </BrowserRouter>
     );

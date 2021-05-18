@@ -41,6 +41,7 @@ export type ResultComponentProps = {
     producerUrl: string,
     title: string,
     genre: string
+    functionalButton: JSX.Element
 }
 
 export type Result ={

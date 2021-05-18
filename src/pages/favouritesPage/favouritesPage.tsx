@@ -4,10 +4,11 @@ import {Impressum} from "../../components/impressum/impressum";
 import {ResultComponent} from "../../components/resultComponent/resultComponent";
 import {Result} from "../../misc/types";
 import Tooltip from "@material-ui/core/Tooltip";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
+import DeleteIcon from '@material-ui/icons/Delete';
+import './favouritesPage.scss'
 
 
-export function ResultPage() {
+export function FavouritesPage() {
 
     const markAsFavourite = (): void => {
         // hier rest Call pls
@@ -38,9 +39,11 @@ export function ResultPage() {
                                      title={item.title}
                                      genre={item.genre}
                                      functionalButton={
-                                         <Tooltip title={"Zu Favouriten hinzufügen"}>
-                                             <StarBorderIcon className={"starButton"} onClick={markAsFavourite}/>
-                                         </Tooltip>}
+                                         <Tooltip title={"Löschen"}>
+                                             <DeleteIcon className={"deleteButton"} onClick={markAsFavourite}/>
+                                         </Tooltip>
+
+                                     }
                     />
 
                 ))
