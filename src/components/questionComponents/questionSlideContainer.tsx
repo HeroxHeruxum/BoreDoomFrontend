@@ -45,7 +45,6 @@ export function QuestionSlideContainer(): JSX.Element {
             })
             .catch((error => {
                 notify("Fehler bei der Datenbeschaffung: "+error.toString())
-                console.error(error)
             }));
     }, []);
 

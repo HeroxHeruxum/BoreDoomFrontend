@@ -6,13 +6,23 @@ import {Result} from "../../misc/types";
 import Tooltip from "@material-ui/core/Tooltip";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export function ResultPage() {
 
-    const markAsFavourite = (id:number, mediaType:string): void => {
-        axios.put("http://localhost:8082/user/favorites/saveMedia?mediaId=" + id +"&mediaType=" + mediaType)
+    //toastHook
+    const notify = (error: any) => {
+        toast.error(error)
     }
+    const markAsFavourite = (id: number, mediaType: string): void => {
+        axios.put("http://localhost:8082/user/favorites/saveMedia?mediaId=" + id + "&mediaType=" + mediaType)
+            .catch((error => {
+                notify("Fehler bei der Datenbeschaffung: "+error.toString())
+            }));
+    }
+
     let mockData = [];
     const mockResult: Result = {
         id: 5,
@@ -21,7 +31,7 @@ export function ResultPage() {
         producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE",
         title: "Ein Unfassbar langer Titel dfamit ich den overflow TEsten kann und keine Dumme URL verwenden muss",
         genre: "Katzig",
-        
+
 
     }
     mockData.push(mockResult)
@@ -42,7 +52,9 @@ export function ResultPage() {
                                      genre={item.genre}
                                      functionalButton={
                                          <Tooltip title={"Zu Favouriten hinzufügen"}>
-                                             <StarBorderIcon className={"starButton"} onClick={() => markAsFavourite(item.id, item.mediaType)}/>
+                                             <StarBorderIcon className={"starButton"}
+                                                             onClick={() => markAsFavourite(item.id, item.mediaType)}>
+                                             </StarBorderIcon>
                                          </Tooltip>}
                     />
 
@@ -57,6 +69,7 @@ export function ResultPage() {
                 <Header/>
             </header>
             <body>
+            <ToastContainer/>
             {returnResults()}
             <Impressum/>
             </body>
