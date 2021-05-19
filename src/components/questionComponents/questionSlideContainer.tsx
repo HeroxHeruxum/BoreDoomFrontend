@@ -1,8 +1,9 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import './questionSlideContainer.scss'
 import {QuestionSlideContent} from "./questionSlideContent";
 import {FetchedQuestions} from "../../misc/types";
 import {NavBar} from "../navBar/navBar";
+import axios from "axios";
 
 /**
  * This class is the data and logic container for the QuestionSlideContainer Component, here we make
@@ -41,24 +42,20 @@ export function QuestionSlideContainer(): JSX.Element {
     const [error, setError] = useState(null)
     const [questionCount, setQuestionCount] = useState(mockData.length)
     const [answer, setAnswer] = useState({})
+    const [data,getFetch] = useState({})
 
-    //data-fetch
-    const getData = (id: string) => {
-        fetch("server/question/" + count)
-            .then(res => res.json())
-            .then((data) => {
-                setFetchedData(data)
-            }, (error) => {
-                setError(error)
-            })
-    }
+    useEffect(()=>{axios
+        .get<[]>("http://localhost:8082/question",{withCredentials:true})
+        .then(response => {setFetchedData(response.data)})
+        .catch((error =>{console.error(error)}));
+    },[]);
 
     //logic to differ between different question types
     const getComponent = (type: string): JSX.Element => {
         if (type === "Mehrfachauswahl") {
             return (
                 <QuestionSlideContent currentCount={count}
-                                      fetchedData={mockData[count-1]}
+                                      fetchedData={fetchedData[count-1]}
                                       navBar={returnNavRow()}
                                       content={returnMultiselect()}
 
@@ -69,7 +66,7 @@ export function QuestionSlideContainer(): JSX.Element {
             return (
                 <QuestionSlideContent
                     currentCount={count}
-                    fetchedData={mockData[count-1]}
+                    fetchedData={fetchedData[count-1]}
                     navBar={returnNavRow()}
                     content={<></>}
                 />
@@ -78,7 +75,7 @@ export function QuestionSlideContainer(): JSX.Element {
         return (
             <QuestionSlideContent
                 currentCount={count}
-                fetchedData={mockData[count-1]}
+                fetchedData={fetchedData[count-1]}
                 navBar={returnNavRow()}
                 content={returnSingleSelect()}
             />
