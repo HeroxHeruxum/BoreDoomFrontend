@@ -26,7 +26,6 @@ export function LoginContainer(props: LoginContainerProps) {
     const [username, setUsername] = useState("");
 
     const {register} = props;
-    const error = "todo";
 
     const loginHeader = useMemo(() => {
         return register ? "Registrierung" : "Anmeldung";
