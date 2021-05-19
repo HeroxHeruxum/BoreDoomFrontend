@@ -1,8 +1,11 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import './questionSlideContainer.scss'
 import {QuestionSlideContent} from "./questionSlideContent";
 import {FetchedQuestions} from "../../misc/types";
 import {NavBar} from "../navBar/navBar";
+import axios from "axios";
+import {toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  * This class is the data and logic container for the QuestionSlideContainer Component, here we make
@@ -12,51 +15,45 @@ import {NavBar} from "../navBar/navBar";
  */
 
 export function QuestionSlideContainer(): JSX.Element {
-    const question1: FetchedQuestions = {
+
+    //fallback/initial data in case the fetch doesnt work
+    const fallbackQuestion: FetchedQuestions = {
         id: 1,
-        text: "Frage aller Fragen?",
+        text: "Da ging etwas schief",
         type: "Mehrfachauswahl",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
-    }
-    const question2: FetchedQuestions = {
-        id: 2,
-        text: "Frage aller Fragen?",
-        type: "Einfachauswahl",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
-    }
-    const question3: FetchedQuestions = {
-        id: 3,
-        text: "Frage aller Fragen?",
-        type: "Slider",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
+        choices: ['Der Server', 'ist nicht', 'erreichbar']
     }
 
-    const mockData: Array<FetchedQuestions> =[question1,question2,question3]
+    const fallbackData: Array<FetchedQuestions> = [fallbackQuestion]
 
     //initiation of the state
     const [count, setCount] = useState(1)
-    const [fetchedData, setFetchedData] = useState(mockData)
-    const [error, setError] = useState(null)
-    const [questionCount, setQuestionCount] = useState(mockData.length)
+    const [fetchedData, setFetchedData] = useState(fallbackData)
+    const [questionCount, setQuestionCount] = useState(fallbackData.length)
     const [answer, setAnswer] = useState({})
 
-    //data-fetch
-    const getData = (id: string) => {
-        fetch("server/question/" + count)
-            .then(res => res.json())
-            .then((data) => {
-                setFetchedData(data)
-            }, (error) => {
-                setError(error)
+    //toastHook
+     const notify = (error: any) =>{
+         toast.error(error)
+     }
+     //Rest-Call zum fetchen der Fragen
+    useEffect(() => {
+        axios
+            .get<[]>("http://localhost:8082/question", {withCredentials: true})
+            .then(response => {
+                setFetchedData(response.data)
             })
-    }
+            .catch((error => {
+                notify("Fehler bei der Datenbeschaffung: "+error.toString())
+            }));
+    }, []);
 
     //logic to differ between different question types
     const getComponent = (type: string): JSX.Element => {
         if (type === "Mehrfachauswahl") {
             return (
                 <QuestionSlideContent currentCount={count}
-                                      fetchedData={mockData[count-1]}
+                                      fetchedData={fetchedData[count - 1]}
                                       navBar={returnNavRow()}
                                       content={returnMultiselect()}
 
@@ -67,7 +64,7 @@ export function QuestionSlideContainer(): JSX.Element {
             return (
                 <QuestionSlideContent
                     currentCount={count}
-                    fetchedData={mockData[count-1]}
+                    fetchedData={fetchedData[count - 1]}
                     navBar={returnNavRow()}
                     content={<></>}
                 />
@@ -76,7 +73,7 @@ export function QuestionSlideContainer(): JSX.Element {
         return (
             <QuestionSlideContent
                 currentCount={count}
-                fetchedData={mockData[count-1]}
+                fetchedData={fetchedData[count - 1]}
                 navBar={returnNavRow()}
                 content={returnSingleSelect()}
             />
@@ -86,7 +83,7 @@ export function QuestionSlideContainer(): JSX.Element {
     const returnSingleSelect = (): JSX.Element => {
         return (
             <div className={'RadioGroup'}>
-                {fetchedData[count-1].choices.map(answer => (
+                {fetchedData[count - 1].choices.map(answer => (
                     //Here we map the amount of choices to a radio Button
                     <>
                         <input type="radio"
@@ -103,7 +100,7 @@ export function QuestionSlideContainer(): JSX.Element {
     const returnMultiselect = (): JSX.Element => {
         return (
             <div className={'RadioGroup'}>
-                {fetchedData[count-1].choices.map(answer => (
+                {fetchedData[count - 1].choices.map(answer => (
                     //Here we map the amount of choices to a radio Button
                     <>
                         <input type="radio"
@@ -144,7 +141,13 @@ export function QuestionSlideContainer(): JSX.Element {
 
     }
 
+
+    //Toastcontainer serves as an entrypoint for the ToastHook
     return (
-            getComponent(mockData[count-1].type)
+        <>
+            <ToastContainer/>
+            { getComponent(fallbackData[count - 1].type)}
+        </>
+
     );
 }
