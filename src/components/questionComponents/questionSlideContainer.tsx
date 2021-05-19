@@ -15,24 +15,28 @@ import 'react-toastify/dist/ReactToastify.css';
  */
 
 export function QuestionSlideContainer(): JSX.Element {
-    const question1: FetchedQuestions = {
+
+    //fallback/initial data in case the fetch doesnt work
+    const fallbackQuestion: FetchedQuestions = {
         id: 1,
         text: "Da ging etwas schief",
         type: "Mehrfachauswahl",
         choices: ['Der Server', 'ist nicht', 'erreichbar']
     }
 
-    const mockData: Array<FetchedQuestions> = [question1]
+    const fallbackData: Array<FetchedQuestions> = [fallbackQuestion]
 
     //initiation of the state
     const [count, setCount] = useState(1)
-    const [fetchedData, setFetchedData] = useState(mockData)
-    const [questionCount, setQuestionCount] = useState(mockData.length)
+    const [fetchedData, setFetchedData] = useState(fallbackData)
+    const [questionCount, setQuestionCount] = useState(fallbackData.length)
     const [answer, setAnswer] = useState({})
 
+    //toastHook
      const notify = (error: any) =>{
          toast.error(error)
      }
+     //Rest-Call zum fetchen der Fragen
     useEffect(() => {
         axios
             .get<[]>("http://localhost:8082/question", {withCredentials: true})
@@ -139,10 +143,11 @@ export function QuestionSlideContainer(): JSX.Element {
     }
 
 
+    //Toastcontainer serves as an entrypoint for the ToastHook
     return (
         <>
             <ToastContainer/>
-            { getComponent(mockData[count - 1].type)}
+            { getComponent(fallbackData[count - 1].type)}
         </>
 
     );
