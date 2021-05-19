@@ -8,6 +8,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import './resultPage.scss'
 
 
 export function ResultPage() {
@@ -29,7 +30,7 @@ export function ResultPage() {
         mediaType: "BOOK",
         imgUrl: "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
         producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE",
-        title: "Ein Unfassbar langer Titel dfamit ich den overflow TEsten kann und keine Dumme URL verwenden muss",
+        title: "Harry Broter und der Waise von Kaskaban",
         genre: "Katzig",
 
 
