@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
 import "./loginContainer.scss";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
@@ -35,7 +35,7 @@ export function LoginContainer(props: LoginContainerProps) {
         return register ? "Registrieren" : "Anmelden";
     }, [register]);
 
-    const onClickButton = useCallback(() => {
+    const onClickButton = () => {
         if (register) {
             if ((email === "") || (password === "") || (username === "")) {
                 notify("nicht alle Felder ausgefüllt")
@@ -64,7 +64,7 @@ export function LoginContainer(props: LoginContainerProps) {
                     })
             }
         }
-    }, [confirmPassword, password, email, username])
+    }
 
     return (
         <div className="loginContainer">
