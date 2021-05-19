@@ -9,7 +9,7 @@ import {slideProps} from "../../misc/types";
 
 export function QuestionSlideContent(props: slideProps): JSX.Element {
     return (
-        <div>
+        <div className={'questionSlide'}>
             <h1 className={'h1style'}>Frage Nummer: {props.currentCount}</h1>
             <div className={'FragenContainer'}>
                 <h2>{props.fetchedData.text}</h2>

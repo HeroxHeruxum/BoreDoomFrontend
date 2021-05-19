@@ -1,5 +1,6 @@
 import "./loginContainer.scss";
 import { useCallback, useMemo } from "react";
+import { useHistory } from "react-router";
 import { Visible } from "../visible/visible";
 import { Button } from "../button/button";
 
@@ -12,6 +13,7 @@ export function LoginContainer(props: LoginContainerProps) {
     const {register} = props;
     const error = "todo";
 
+    const history = useHistory();
     const loginHeader = useMemo(() => {
         return register ? "Registrierung" : "Anmeldung";
     }, [register]);
@@ -64,9 +66,8 @@ export function LoginContainer(props: LoginContainerProps) {
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
                 <Visible if={!register}>
-                    <a className="registerLink" href="/register">
-                        Registrieren
-                    </a>
+                    <Button type="link" title="Registrieren"
+                            onClick={() => history.push("/register")}/>
                 </Visible>
             </div>
         </div>

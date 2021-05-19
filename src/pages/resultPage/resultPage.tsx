@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {Header} from "../../components/header/header";
-import {Impressum} from "../../components/impressum/impressum";
 import {ResultComponent} from "../../components/resultComponent/resultComponent";
 import {Result} from "../../misc/types";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -8,7 +6,8 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import './resultPage.scss'
+import './resultPage.scss';
+import {PageContainer} from '../pageContainer/pageContainer';
 
 
 export function ResultPage() {
@@ -65,15 +64,9 @@ export function ResultPage() {
         );
     };
     return (
-        <>
-            <header>
-                <Header/>
-            </header>
-            <body>
+        <PageContainer>
             <ToastContainer/>
             {returnResults()}
-            <Impressum/>
-            </body>
-        </>
+        </PageContainer>
     );
 }

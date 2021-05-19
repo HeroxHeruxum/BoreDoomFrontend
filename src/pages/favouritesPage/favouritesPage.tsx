@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {Header} from "../../components/header/header";
-import {Impressum} from "../../components/impressum/impressum";
 import {ResultComponent} from "../../components/resultComponent/resultComponent";
 import {Result} from "../../misc/types";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from '@material-ui/icons/Delete';
 import './favouritesPage.scss'
+import {PageContainer} from '../pageContainer/pageContainer';
 
 
 export function FavouritesPage() {
@@ -53,14 +52,8 @@ export function FavouritesPage() {
         );
     }
     return (
-        <>
-            <header>
-                <Header/>
-            </header>
-            <body>
+        <PageContainer>
             {returnResults()}
-            <Impressum/>
-            </body>
-        </>
+        </PageContainer>
     );
 }
