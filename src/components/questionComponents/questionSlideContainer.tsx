@@ -15,26 +15,12 @@ import axios from "axios";
 export function QuestionSlideContainer(): JSX.Element {
     const question1: FetchedQuestions = {
         id: 1,
-        text: "Frage aller Fragen?",
+        text: "Da ging etwas schief",
         type: "Mehrfachauswahl",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
+        choices: ['Der Server', 'ist nicht', 'erreichbar']
     }
 
-    const question2: FetchedQuestions = {
-        id: 2,
-        text: "Frage aller Fragen?",
-        type: "Einfachauswahl",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
-    }
-
-    const question3: FetchedQuestions = {
-        id: 3,
-        text: "Frage aller Fragen?",
-        type: "Slider",
-        choices: ['Antwort1', 'Antwort2', 'Antwort3']
-    }
-
-    const mockData: Array<FetchedQuestions> =[question1,question2,question3]
+    const mockData: Array<FetchedQuestions> = [question1]
 
     //initiation of the state
     const [count, setCount] = useState(1)
@@ -42,20 +28,25 @@ export function QuestionSlideContainer(): JSX.Element {
     const [error, setError] = useState(null)
     const [questionCount, setQuestionCount] = useState(mockData.length)
     const [answer, setAnswer] = useState({})
-    const [data,getFetch] = useState({})
+    const [data, getFetch] = useState({})
 
-    useEffect(()=>{axios
-        .get<[]>("http://localhost:8082/question",{withCredentials:true})
-        .then(response => {setFetchedData(response.data)})
-        .catch((error =>{console.error(error)}));
-    },[]);
+    useEffect(() => {
+        axios
+            .get<[]>("http://localhost:8082/question", {withCredentials: true})
+            .then(response => {
+                setFetchedData(response.data)
+            })
+            .catch((error => {
+                console.log(error)
+            }));
+    }, []);
 
     //logic to differ between different question types
     const getComponent = (type: string): JSX.Element => {
         if (type === "Mehrfachauswahl") {
             return (
                 <QuestionSlideContent currentCount={count}
-                                      fetchedData={fetchedData[count-1]}
+                                      fetchedData={fetchedData[count - 1]}
                                       navBar={returnNavRow()}
                                       content={returnMultiselect()}
 
@@ -66,7 +57,7 @@ export function QuestionSlideContainer(): JSX.Element {
             return (
                 <QuestionSlideContent
                     currentCount={count}
-                    fetchedData={fetchedData[count-1]}
+                    fetchedData={fetchedData[count - 1]}
                     navBar={returnNavRow()}
                     content={<></>}
                 />
@@ -75,7 +66,7 @@ export function QuestionSlideContainer(): JSX.Element {
         return (
             <QuestionSlideContent
                 currentCount={count}
-                fetchedData={fetchedData[count-1]}
+                fetchedData={fetchedData[count - 1]}
                 navBar={returnNavRow()}
                 content={returnSingleSelect()}
             />
@@ -85,7 +76,7 @@ export function QuestionSlideContainer(): JSX.Element {
     const returnSingleSelect = (): JSX.Element => {
         return (
             <div className={'RadioGroup'}>
-                {fetchedData[count-1].choices.map(answer => (
+                {fetchedData[count - 1].choices.map(answer => (
                     //Here we map the amount of choices to a radio Button
                     <>
                         <input type="radio"
@@ -102,7 +93,7 @@ export function QuestionSlideContainer(): JSX.Element {
     const returnMultiselect = (): JSX.Element => {
         return (
             <div className={'RadioGroup'}>
-                {fetchedData[count-1].choices.map(answer => (
+                {fetchedData[count - 1].choices.map(answer => (
                     //Here we map the amount of choices to a radio Button
                     <>
                         <input type="radio"
@@ -144,6 +135,6 @@ export function QuestionSlideContainer(): JSX.Element {
     }
 
     return (
-            getComponent(mockData[count-1].type)
+        getComponent(mockData[count - 1].type)
     );
 }
