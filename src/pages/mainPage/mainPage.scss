@@ -1,10 +1,12 @@
-.Centered{
-    text-align: center;
+@import "../../styles/_globals";
+
+
+.mainPageDescription {
+    text-align: justify;
 }
-.StartButtonContainer{
-    display: flex;
-    justify-content: center;
-    padding-top: 10%;
+
+.startButtonWrapper {
+    margin-top: $big;
 }
 
 
