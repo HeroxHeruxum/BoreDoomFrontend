@@ -9,7 +9,7 @@ interface PageContainerProps {
     children: JSX.Element | JSX.Element[]
 }
 
-export function PageContainer(props: PageContainerProps): JSX.Element {
+export function PageContainer(props: PageContainerProps) {
     const {title, children} = props;
 
     return (

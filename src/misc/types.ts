@@ -46,12 +46,11 @@ export type ResultComponentProps = {
     functionalButton: JSX.Element
 }
 
-export type Result ={
+export type Media = {
     id: number,
     mediaType: string,
     imgUrl: string,
-    producerUrl: string,
     title: string,
-    genre: string
-    
+    genre: string,
+    producerUrl: string
 }
