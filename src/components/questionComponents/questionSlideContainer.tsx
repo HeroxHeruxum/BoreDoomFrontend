@@ -4,6 +4,8 @@ import {QuestionSlideContent} from "./questionSlideContent";
 import {FetchedQuestions} from "../../misc/types";
 import {NavBar} from "../navBar/navBar";
 import axios from "axios";
+import {toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 /**
  * This class is the data and logic container for the QuestionSlideContainer Component, here we make
@@ -25,11 +27,12 @@ export function QuestionSlideContainer(): JSX.Element {
     //initiation of the state
     const [count, setCount] = useState(1)
     const [fetchedData, setFetchedData] = useState(mockData)
-    const [error, setError] = useState(null)
     const [questionCount, setQuestionCount] = useState(mockData.length)
     const [answer, setAnswer] = useState({})
-    const [data, getFetch] = useState({})
 
+     const notify = (error: any) =>{
+         toast.error(error)
+     }
     useEffect(() => {
         axios
             .get<[]>("http://localhost:8082/question", {withCredentials: true})
@@ -37,7 +40,8 @@ export function QuestionSlideContainer(): JSX.Element {
                 setFetchedData(response.data)
             })
             .catch((error => {
-                console.log(error)
+                notify("Fehler bei der Datenbeschaffung: "+error.toString())
+                console.error(error)
             }));
     }, []);
 
@@ -134,7 +138,12 @@ export function QuestionSlideContainer(): JSX.Element {
 
     }
 
+
     return (
-        getComponent(mockData[count - 1].type)
+        <>
+            <ToastContainer/>
+            { getComponent(mockData[count - 1].type)}
+        </>
+
     );
 }
