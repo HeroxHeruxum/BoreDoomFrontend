@@ -16,6 +16,7 @@ export function FavouritesPage() {
     let mockData = [];
     const mockResult: Result = {
         id: 1,
+        mediaType: "BOOK",
         imgUrl: "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
         producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE",
         title: "Ein Unfassbar langer Titel dfamit ich den overflow TEsten kann und keine Dumme URL verwenden muss",

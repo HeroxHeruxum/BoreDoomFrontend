@@ -46,8 +46,10 @@ export type ResultComponentProps = {
 
 export type Result ={
     id: number,
+    mediaType: string,
     imgUrl: string,
     producerUrl: string,
     title: string,
     genre: string
+    
 }
