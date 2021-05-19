@@ -1,0 +1,29 @@
+@import "../../styles/sizes.scss";
+@import "../../styles/colors.scss";
+
+
+.pageContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 100%;
+        flex-grow: 1;
+        margin-top: $headerHeight;
+        padding: $huge 20%;
+        background-color: $white;
+    }
+}
