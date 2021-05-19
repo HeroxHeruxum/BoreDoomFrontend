@@ -1,0 +1,70 @@
+@import "../../styles/sizes.scss";
+@import "../../styles/colors.scss";
+
+
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: max-content;
+    align-self: center;
+    border: solid 1px $grey;
+    padding: $huge;
+
+    .loginHeader {
+        margin-bottom: $small;
+        text-align: center;
+        font-size: $large;
+        font-weight: 600;
+        color: $darkBlue;
+    }
+
+    .loginInputWrapper {
+        margin: $default 0;
+
+        .loginInputHeader {
+            font-size: $big;
+        }
+
+        .loginInput {
+            box-sizing: border-box;
+            width: 100%;
+            height: $large;
+            margin: $small 0;
+            font-size: 14px;
+        }
+    }
+
+    .loginErrors {
+        margin-bottom: $big;
+        text-align: center;
+        font-size: $default;
+        color: $red;
+    }
+
+    .loginButtonWrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .registerLink {
+            width: max-content;
+            margin: -$small;
+            margin-top: $small;
+            padding: $small;
+            text-align: center;
+            font-size: $default;
+            color: $darkBlue;
+            text-decoration: underline;
+            cursor: pointer;
+
+            &:hover {
+                color: $darkBlueHover;
+            }
+        
+            &:active {
+                color: $darkBlueActive;
+            }
+        }
+    }
+}
