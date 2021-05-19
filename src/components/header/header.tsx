@@ -23,9 +23,10 @@ export function Header() {
             }));
     }, []);
 
-    const logOut =useCallback(() => {
+    const logOut = useCallback(() => {
         axios
             .get<[]>("http://localhost:8082/logout")
+            .then(() => history.push("/"))
             .catch((error => {
                 console.log(error)
             }));

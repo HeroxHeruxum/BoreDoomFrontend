@@ -1,8 +1,11 @@
+import React, {useCallback, useMemo, useState} from "react";
 import "./loginContainer.scss";
-import {useCallback, useMemo, useState} from "react";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 interface LoginContainerProps {
@@ -11,6 +14,11 @@ interface LoginContainerProps {
 
 export function LoginContainer(props: LoginContainerProps) {
 
+    const history = useHistory()
+
+    const notify = (error: any) => {
+        toast.error(error)
+    }
 
     const [confirmPassword, setConfirmPassword] = useState("");
     const [password, setPassword] = useState("");
@@ -23,28 +31,37 @@ export function LoginContainer(props: LoginContainerProps) {
     const loginHeader = useMemo(() => {
         return register ? "Registrierung" : "Anmeldung";
     }, [register]);
+
     const buttonTitle = useMemo(() => {
         return register ? "Registrieren" : "Anmelden";
     }, [register]);
+
     const onClickButton = useCallback(() => {
         if (register) {
             if ((email === "") || (password === "") || (username === "")) {
-                console.log("nicht alle Felder ausgefüllt")
+                notify("nicht alle Felder ausgefüllt")
             } else if (password !== confirmPassword) {
-                console.log("passwörterungleich")
+                notify("passwörterungleich")
             } else {
                 axios.post("http://localhost:8082/register", {username: username, email: email, password: password})
                     .catch((e) => {
-                        console.error(e)
+                        notify(e.toString())
                     })
+                    .finally(() => {
+                            history.push("/login")
+                        }
+                    )
             }
         } else {
-            if ((email === "") || (password === "")) {
-                console.log("nicht alle Felder ausgefüllt")
+            if ((username === "") || (password === "")) {
+                notify("nicht alle Felder ausgefüllt")
             } else {
                 axios.post("http://localhost:8082/login", {username: username, password: password})
+                    .then(() => {
+                        history.push("/")
+                    })
                     .catch((e) => {
-                        console.log(e)
+                        notify(e.response.data)
                     })
             }
         }
@@ -93,9 +110,7 @@ export function LoginContainer(props: LoginContainerProps) {
                     }}/>
                 </div>
             </Visible>
-            <div className="loginErrors">
-                {error}
-            </div>
+            <ToastContainer/>
             <div className="loginButtonWrapper">
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
