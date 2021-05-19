@@ -33,7 +33,7 @@ export type ButtonProps = {
     type: ButtonType,
     disabled?: boolean,
     title: string | JSX.Element,
-    onClick: (event: MouseEvent<HTMLButtonElement>) => void
+    onClick:(event: MouseEvent<HTMLButtonElement>) => void
 }
 
 export type ResultComponentProps = {

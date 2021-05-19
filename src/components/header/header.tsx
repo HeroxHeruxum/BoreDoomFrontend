@@ -1,12 +1,36 @@
 import "./header.scss";
-import { useCallback } from "react";
-import { Button } from "../button/button";
-import { useHistory } from "react-router-dom";
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import {Button} from "../button/button";
+import {useHistory} from "react-router-dom";
+import axios from "axios";
+import {Visible} from "../visible/visible";
 
 
 export function Header() {
     let history = useHistory();
+
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        axios
+            .get<[]>("http://localhost:8082/isAuthenticated")
+            .then(response => {
+                let result = (response.data.toString() === "true")
+                setIsAuthenticated(result)
+            })
+            .catch((error => {
+                console.log(error)
+            }));
+    }, []);
+
+    const logOut =useCallback(() => {
+        axios
+            .get<[]>("http://localhost:8082/logout")
+            .catch((error => {
+                console.log(error)
+            }));
+    }, [isAuthenticated]);
+
     const getOnClickMenuButton = useCallback((subPath: string) => () => {
         history.push(`/${subPath}`);
     }, [history]);
@@ -22,9 +46,17 @@ export function Header() {
                     "s")}/>
                 <Button type="header" title="Kontakt" onClick={getOnClickMenuButton("contact")}/>
             </div>
-            <div className="headerRight">
-                <Button type="header" title="Anmelden" onClick={getOnClickMenuButton("login")}/>
-            </div>
+            <Visible if={!isAuthenticated}>
+                <div className="headerRight">
+                    <Button type="header" title="Anmelden" onClick={getOnClickMenuButton("login")}/>
+                </div>
+            </Visible>
+            <Visible if={isAuthenticated}>
+                <div className="headerRight">
+                    <Button type="header" title="Log Out" onClick={logOut}/>
+                </div>
+            </Visible>
+
         </div>
     );
 }
