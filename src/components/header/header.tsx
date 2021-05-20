@@ -13,7 +13,7 @@ export function Header() {
 
     useEffect(() => {
         axios
-            .get<[]>("http://localhost:8082/isAuthenticate// d")
+            .get<[]>("http://localhost:8082/isAuthenticated")
             .then(response => {
                 let result = (response.data.toString() === "true")
                 setIsAuthenticated(result)
