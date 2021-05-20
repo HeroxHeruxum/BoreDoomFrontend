@@ -54,3 +54,7 @@ export type Result ={
     title: string,
     genre: string
 }
+
+export type LoginContainerProps = {
+    isRegister: boolean
+}
