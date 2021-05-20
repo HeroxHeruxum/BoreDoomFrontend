@@ -30,3 +30,24 @@ export type ButtonProps = {
     href?: string,
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
 }
+
+export type ResultComponentProps = {
+    imgUrl: string,
+    producerUrl: string,
+    title: string,
+    genre: string
+    functionalButton: JSX.Element
+}
+
+export type Result ={
+    id: number,
+    mediaType: "MOVIE"|"BOOK"
+    imgUrl: string,
+    producerUrl: string,
+    title: string,
+    genre: string
+}
+
+export type LoginContainerProps = {
+    isRegister: boolean
+}
