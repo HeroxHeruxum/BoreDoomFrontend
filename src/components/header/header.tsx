@@ -40,13 +40,13 @@ export function Header() {
     return (
         <div className="header">
             <div className="headerLeft">
-                {/*<img className="headerLogo" src={...}/>*/}
-                <div onClick={getOnClickMenuButton("")} style={{fontSize: "30px", marginRight: "18px", cursor: "pointer"}}>BoreDoom</div>
+                <a className="headerLogoLink" href="/">
+                    {/*<img className="headerLogo" src={...}/>*/}
+                    <div style={{fontSize: "30px", color: "#FFFFFF", textDecoration: "none"}}>BoreDoom</div>
+                </a>
                 <Button type="header" title="Fragenkatalog" onClick={getOnClickMenuButton("questions")}/>
                 <Button type="header" title="Glückstreffer" onClick={getOnClickMenuButton("luckystrike")}/>
-                <Button type="header" title="Merkliste" onClick={getOnClickMenuButton("bookmark" +
-                    "s")}/>
-                <Button type="header" title="Kontakt" onClick={getOnClickMenuButton("contact")}/>
+                <Button type="header" title="Merkliste" onClick={getOnClickMenuButton("bookmarks")}/>
             </div>
             <Visible if={!isAuthenticated}>
                 <div className="headerRight">

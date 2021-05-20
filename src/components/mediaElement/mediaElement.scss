@@ -1,0 +1,50 @@
+@import "../../styles/_globals";
+
+
+.mediaElement {
+  display: flex;
+  justify-content: space-between;
+  margin: $small 0;
+  border: solid 1px $grey;
+  padding: $default;
+
+  .mediaImage {
+    height: $imageHeight;
+    aspect-ratio: 1;
+    margin-right: $small;
+  }
+
+  .mediaContent {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .mediaTitle {
+      font-size: $fontSizeBig;
+      font-weight: $fontWeightBold;
+      color: $darkBlue;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .mediaGenre {
+      margin: $default 0;
+    }
+
+    .linkButtonWrapper {
+      margin-left: -$default;
+    }
+  }
+
+  .bookmarkIconWrapper {
+    width: $big;
+    margin-left: $small;
+
+    .bookmarkIcon {
+      cursor: pointer;
+    }
+  }
+}

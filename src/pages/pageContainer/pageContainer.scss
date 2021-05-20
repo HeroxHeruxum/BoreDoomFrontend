@@ -1,5 +1,4 @@
-@import "../../styles/sizes.scss";
-@import "../../styles/colors.scss";
+@import "../../styles/_globals.scss";
 
 
 .pageContainer {
@@ -26,5 +25,12 @@
         margin-top: $headerHeight;
         padding: $huge 25%;
         background-color: $white;
+
+        .pageTitle {
+            margin-bottom: $big;
+            font-size: $fontSizeHuge;
+            font-weight: $fontWeightBold;
+            color: $darkBlue;
+        }
     }
 }

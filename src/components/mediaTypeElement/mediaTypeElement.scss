@@ -1,0 +1,11 @@
+@import "../../styles/_globals";
+
+
+.mediaTypeElement {
+  margin: $default 0;
+
+  .mediaTypeTitle {
+    font-size: $fontSizeHuge;
+    font-weight: $fontWeightBold;
+  }
+}
