@@ -1,31 +1,30 @@
 import {MouseEvent} from "react";
 
-export type FetchedQuestions = {
-    id: number
-    text: string
-    type: string
-    choices: Array<string>
+type Choices ={
+    id: number,
+    value: string,
 }
 
-export type Answers = {
-    id: number
+export type Question = {
+    id: number,
+    type: string,
+    text: string,
+    choices: Array<Choices>
+}
+
+
+export type Answer = {
+    id: number,
     selectedChoices: Array<string>
 }
 
-export type slideProps = {
-    currentCount: number
-    fetchedData: FetchedQuestions
-    navBar: JSX.Element
-    content: JSX.Element
-}
-
-export type navBarProps = {
-    backArrowFunction: () => void,
-    forwardArrowFunction: () => void,
-    middleButtonFunction: () => void,
-    middleButtonCaption: string,
-    forwardButtonDisabled: boolean,
-    backwardButtonDisabled: boolean,
+export type Media = {
+    id: number,
+    mediaType: string,
+    imgUrl: string,
+    title: string,
+    genre: string,
+    producerUrl: string
 }
 
 export type ButtonType = "standard" | "header" | "link";

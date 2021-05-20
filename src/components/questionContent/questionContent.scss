@@ -1,0 +1,80 @@
+@import "../../styles/_globals";
+
+
+.questionContent {
+  min-height: 200px;
+  width: 100%;
+  padding: $default;
+
+  .questionText {
+    font-size: $fontSizeBig;
+    color: $darkBlue;
+    text-align: justify;
+  }
+
+  .questionAnswers {
+    margin-top: $big;
+
+    .selectionWrapper {
+      .selection {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin: $small 0;
+        cursor: pointer;
+
+        .inputButton {
+          opacity: 0;
+          margin: 0 $default;
+        }
+
+        .customRadio {
+          position: absolute;
+          left: $default;
+          width: $inputButtonHeight;
+          aspect-ratio: 1;
+          border: solid 1px $grey;
+          border-radius: 50%;
+        }
+
+        .inputButton:checked ~ .customRadio {
+          .checkmark {
+            position: absolute;
+            top: 2px;
+            bottom: 2px;
+            left: 2px;
+            right: 2px;
+            border-radius: 50%;
+            background-color: $darkBlue;
+          }
+        }
+
+        .customCheckbox {
+          position: absolute;
+          left: $default;
+          width: $inputButtonHeight;
+          aspect-ratio: 1;
+          border: solid 1px $grey;
+          border-radius: 2px;
+        }
+
+        .inputButton:checked ~ .customCheckbox {
+          background-color: $darkBlue;
+          border-color: $darkBlue;
+          border-radius: 2px;
+
+          .checkmark {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            height: 6px;
+            width: 11px;
+            border-left: solid 3px #FFFFFF;
+            border-bottom: solid 3px #FFFFFF;
+            transform: rotate(-45deg);
+          }
+        }
+      }
+    }
+  }
+}
