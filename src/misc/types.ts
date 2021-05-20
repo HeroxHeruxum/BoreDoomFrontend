@@ -1,9 +1,9 @@
 import {MouseEvent} from "react";
 
-export type FetchedQuestions = {
-    id: number
-    text: string
-    type: string
+export type Question = {
+    id: number,
+    text: string,
+    type: string,
     choices: Array<string>
 }
 
@@ -14,7 +14,7 @@ export type Answers = {
 
 export type slideProps = {
     currentCount: number
-    fetchedData: FetchedQuestions
+    fetchedData: Question
     navBar: JSX.Element
     content: JSX.Element
 }

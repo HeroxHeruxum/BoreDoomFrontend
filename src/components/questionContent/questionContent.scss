@@ -1,0 +1,18 @@
+@import "../../styles/_globals";
+
+
+.questionContent {
+  min-height: 200px;
+  width: 100%;
+  padding: $default;
+
+  .questionText {
+    font-size: $fontSizeBig;
+    color: $darkBlue;
+    text-align: justify;
+  }
+
+  .questionAnswers {
+    margin-top: $big;
+  }
+}

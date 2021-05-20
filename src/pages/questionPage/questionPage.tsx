@@ -1,10 +1,9 @@
-import React from 'react';
-import "../mainPage/mainPage.scss"
-import {QuestionSlideContainer} from "../../components/questionComponents/questionSlideContainer";
-import {PageContainer} from '../pageContainer/pageContainer';
+import React from "react";
+import {PageContainer} from "../pageContainer/pageContainer";
+import {QuestionSlideContainer} from "../../components/questionContainer/questionContainer";
 
 
-export function QuestionPage(): JSX.Element {
+export function QuestionPage() {
     return (
         <PageContainer>
             <QuestionSlideContainer/>
