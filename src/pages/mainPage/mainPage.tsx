@@ -1,19 +1,14 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
 import "./mainPage.scss"
-import {Header} from "../../components/header/header";
 import {Button} from "../../components/button/button";
-import {Impressum} from "../../components/impressum/impressum";
+import {PageContainer} from '../pageContainer/pageContainer';
 
 
 export function MainPage() {
     let history = useHistory();
     return (
-        <>
-            <header>
-                <Header/>
-            </header>
-            <body className={'MainPageBody'}>
+        <PageContainer>
             <h2 className={'Centered'}>Was ist BoreDoom?</h2>
             <p>
                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
@@ -34,8 +29,6 @@ export function MainPage() {
                     }}
                 />
             </div>
-            <Impressum/>
-            </body>
-        </>
+        </PageContainer> 
     );
 }

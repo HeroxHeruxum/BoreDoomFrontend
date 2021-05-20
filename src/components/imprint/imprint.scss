@@ -1,0 +1,9 @@
+@import "../../styles/_globals";
+
+
+.imprint {
+  display: flex;
+  justify-content: center;
+  border-top: solid 1px $grey;
+  padding: $small;
+}

@@ -1,5 +1,4 @@
-@import "../../styles/sizes.scss";
-@import "../../styles/colors.scss";
+@import "../../styles/_globals.scss";
 
 
 .loginContainer {
@@ -7,15 +6,15 @@
     flex-direction: column;
     width: 400px;
     height: max-content;
-    align-self: center;
+    margin: auto 0;
     border: solid 1px $grey;
     padding: $huge;
 
     .loginHeader {
         margin-bottom: $small;
         text-align: center;
-        font-size: $large;
-        font-weight: 600;
+        font-size: $fontSizeBig;
+        font-weight: $fontWeightBold;
         color: $darkBlue;
     }
 
@@ -23,22 +22,22 @@
         margin: $default 0;
 
         .loginInputHeader {
-            font-size: $big;
+            font-size: $fontSizeDefault;
         }
 
         .loginInput {
-            box-sizing: border-box;
             width: 100%;
-            height: $large;
             margin: $small 0;
-            font-size: 14px;
+            padding: $tiny;
+            font-size: $fontSizeDefault;
+            font-weight: $fontWeightLight;
         }
     }
 
     .loginErrors {
         margin-bottom: $big;
         text-align: center;
-        font-size: $default;
+        font-size: $fontSizeSmall;
         color: $red;
     }
 
@@ -53,7 +52,7 @@
             margin-top: $small;
             padding: $small;
             text-align: center;
-            font-size: $default;
+            font-size: $fontSizeSmall;
             color: $darkBlue;
             text-decoration: underline;
             cursor: pointer;
