@@ -1,0 +1,30 @@
+@import "../../styles/_globals.scss";
+
+.impressumHeader {
+  margin-bottom: $small;
+  text-align: center;
+  font-size: $fontSizeVeryBig;
+  font-weight: $fontWeightBold;
+  color: $darkBlue;
+}
+
+.mainCaption {
+  margin-top: 5%;
+  text-align: left;
+  font-size: $fontSizeBig;
+  font-weight: $fontWeightBold;
+  color: $darkBlue;
+  min-width: 100%;
+  border-bottom: #525E81 solid 1px;
+}
+.subCaption {
+  margin-top: 10px;
+  text-align: left;
+  font-size: $fontSizeDefault;
+  font-weight: $fontWeightDefault;
+  color: $darkBlue;
+  min-width: 100%;
+}
+.content {
+  min-width: 100%;
+}

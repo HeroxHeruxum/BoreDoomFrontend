@@ -5,6 +5,7 @@ import {QuestionPage} from "./pages/questionPage/questionPage";
 import {ResultPage} from "./pages/resultPage/resultPage";
 import {FavouritesPage} from "./pages/favouritesPage/favouritesPage";
 import {LoginPage} from "./pages/loginPage/loginPage";
+import {ImprintPage} from "./pages/imprintPage/imprintPage";
 
 
 function App() {
@@ -12,11 +13,12 @@ function App() {
         <BrowserRouter>
             <Switch>
                 <Route exact path={"/"} render={() => <MainPage/>}/>
-                <Route exact path={"/questions"} render={()=> <QuestionPage/>}/>
-                <Route exact path={"/results"} render={()=> <ResultPage/>}/>
-                <Route exact path={"/bookmarks"} render={()=> <FavouritesPage/>}/>
+                <Route exact path={"/questions"} render={() => <QuestionPage/>}/>
+                <Route exact path={"/results"} render={() => <ResultPage/>}/>
+                <Route exact path={"/bookmarks"} render={() => <FavouritesPage/>}/>
                 <Route exact path={"/login"} render={props => <LoginPage {...props}/>}/>
                 <Route exact path={"/register"} render={props => <LoginPage {...props}/>}/>
+                <Route exact path={"/imprint"} render={() => <ImprintPage/>}/>
             </Switch>
         </BrowserRouter>
     );
