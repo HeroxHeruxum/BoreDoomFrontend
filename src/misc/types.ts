@@ -27,13 +27,15 @@ export type navBarProps = {
     forwardButtonDisabled: boolean,
     backwardButtonDisabled: boolean,
 }
-export type ButtonType = "standard" | "header";
+
+export type ButtonType = "standard" | "header" | "link";
 
 export type ButtonProps = {
     type: ButtonType,
     disabled?: boolean,
     title: string | JSX.Element,
-    onClick:(event: MouseEvent<HTMLButtonElement>) => void
+    href?: string,
+    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
 }
 
 export type ResultComponentProps = {

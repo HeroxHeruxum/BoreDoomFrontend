@@ -1,12 +1,10 @@
-@import "../../styles/sizes.scss";
-@import "../../styles/colors.scss";
+@import "../../styles/_globals.scss";
 
 
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
     width: 100%;
     height: $headerHeight;
     padding: $default;
@@ -17,11 +15,19 @@
         display: flex;
         align-items: center;
 
-        .headerLogo {
-            height: $logoHeight;
+        .headerLogoLink {
             margin-right: $big;
-            object-fit: contain;
+            text-decoration: none;
             cursor: pointer;
+
+            &:focus {
+                outline: dotted 1px $white;
+            }
+
+            .headerLogo {
+                height: $logoHeight;
+                object-fit: contain;
+            }
         }
     }
 

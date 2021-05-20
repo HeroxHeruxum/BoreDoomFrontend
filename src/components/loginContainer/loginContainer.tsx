@@ -14,8 +14,6 @@ interface LoginContainerProps {
 
 export function LoginContainer(props: LoginContainerProps) {
 
-    const history = useHistory()
-
     const notify = (error: any) => {
         toast.error(error)
     }
@@ -27,6 +25,7 @@ export function LoginContainer(props: LoginContainerProps) {
 
     const {register} = props;
 
+    const history = useHistory();
     const loginHeader = useMemo(() => {
         return register ? "Registrierung" : "Anmeldung";
     }, [register]);
@@ -114,9 +113,8 @@ export function LoginContainer(props: LoginContainerProps) {
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
                 <Visible if={!register}>
-                    <a className="registerLink" href="/register">
-                        Registrieren
-                    </a>
+                    <Button type="link" title="Registrieren"
+                            onClick={() => history.push("/register")}/>
                 </Visible>
                 <Visible if={register}>
                     <a className="registerLink" href="/login">
