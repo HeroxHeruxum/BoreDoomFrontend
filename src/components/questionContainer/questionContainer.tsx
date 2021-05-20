@@ -3,29 +3,29 @@ import "./questionContainer.scss";
 import {toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import {Question} from "../../misc/types";
+import {Answer, Question} from "../../misc/types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
 
 
-export function QuestionSlideContainer() {
+export function QuestionContainer() {
     const mockData = useMemo(() => {
         const mockQuestion: Question = {
             id: 1,
             text: "Da ging etwas schief",
-            type: "Mehrfachauswahl",
+            type: "Einfachauswahl",
             choices: ["Der Server", "ist nicht", "erreichbar"]
         };
-        return [mockQuestion, mockQuestion, {...mockQuestion, type: "was sonst noch?"}]
+        return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "Mehrfachauswahl"}]
     }, []);
     const [fetchedData, setFetchedData] = useState(mockData);
     
     const showNotification = useCallback((message: string) => {
         toast.error(message)
     }, [toast]);
-     useEffect(() => {
+    useEffect(() => {
         //REST call for fetching questions
         axios.get<[]>("http://localhost:8082/question", {withCredentials: true})
             .then(response => {
@@ -48,13 +48,46 @@ export function QuestionSlideContainer() {
             setQuestionIndex(questionIndex - 1)
         }
     }, [questionIndex, setQuestionIndex]);
+    const activeQuestion = useMemo(() => {
+        return fetchedData[questionIndex]
+    }, [fetchedData, questionIndex]);
 
-
-    const [answer, setAnswer] = useState({})
-    const saveNewAnswer = (): void => {
-        setAnswer({id: 1, selectedChoices: []})
-    }
-
+    const toggleValueInArray = useCallback((array: string[], value: string) => {
+        if (array.includes(value)) {
+            return array.filter(v => v !== value)
+        } else {
+            return [...array, value]
+        }
+    }, []);
+    const [answers, setAnswers] = useState<Answer[]>([]);
+    const updateAnswer = useCallback((id: number, selectedCoice: string) => {
+        let updatedAnswer: Answer = {id, selectedChoices: []};
+        const otherAnswers = answers.filter(answer => {
+            if (answer.id === id) {
+                updatedAnswer = answer
+            }
+            return answer.id !== id
+        });
+        switch(activeQuestion.type) {
+            case "Einfachauswahl":
+                updatedAnswer = {
+                    ...updatedAnswer,
+                    selectedChoices: [selectedCoice]
+                };
+                break;
+            case "Mehrfachauswahl":
+                const choices = toggleValueInArray(updatedAnswer.selectedChoices, selectedCoice);
+                updatedAnswer = {
+                    ...updatedAnswer,
+                    selectedChoices: choices
+                };
+                break;
+        }
+        setAnswers([...otherAnswers, updatedAnswer])
+    }, [activeQuestion, answers, setAnswers, toggleValueInArray]);
+    const activeAnswer = useMemo(() => {
+        return answers.find(answer => answer.id === activeQuestion.id)
+    }, [activeQuestion, answers]);
     
     const disableArrowLeft = useMemo(() => {
         return questionIndex === 0
@@ -78,7 +111,9 @@ export function QuestionSlideContainer() {
                     <ArrowBackIosIcon/>
                 </div>
                 <div className="questionContent">
-                    <QuestionContent question={fetchedData[questionIndex]}/>
+                    <QuestionContent question={activeQuestion}
+                                     answer={activeAnswer}
+                                     updateAnswer={updateAnswer}/>
                     <div className="resultButtonWrapper">
                         <Button type="standard" title="Auswertung"
                                 disabled={!enableResultButton}

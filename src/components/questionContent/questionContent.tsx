@@ -1,72 +1,73 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import "./questionContent.scss";
-import {Question} from "../../misc/types";
+import {Answer, Question} from "../../misc/types";
 
 
 interface QuestionContentProps {
-    question: Question
-    //setAnswer o.Ä.
+    question: Question,
+    answer?: Answer,
+    updateAnswer: (id: number, selectedChoice: string) => void
 }
 
 export function QuestionContent(props: QuestionContentProps) {
-    const {question} = props;
-    
-    const getComponent = (): JSX.Element => {
-        let content: JSX.Element;
-        switch (question.type) {
+    const {question: {id, type, text, choices}, answer, updateAnswer} = props;
+
+    const getIsChecked = useCallback((a: string) => {
+        return answer?.selectedChoices.includes(a)
+    }, [answer]);
+
+    const singleSelectComponent = useMemo(() => {
+        return <div className="selectionWrapper">
+            {choices.map(answer => {
+                return <div className="selection"
+                            onClick={() => updateAnswer(id, answer)}>
+                    <input className="inputButton" type="radio"
+                           name={`question${id}`} value={answer}
+                           checked={getIsChecked(answer)}/>
+                    <div className="customRadio">
+                        <div className="checkmark"/>
+                    </div>
+                    {answer}
+                </div>
+            })}
+        </div>
+    }, [id, choices, updateAnswer, getIsChecked]);
+
+    const multiSelectComponent = useMemo(() => {
+        return <div className="selectionWrapper">
+            {choices.map(answer => {
+                return <div className="selection"
+                            onClick={() => updateAnswer(id, answer)}>
+                    <input className="inputButton" type="checkbox"
+                           name={`question${id}`} value={answer}
+                           checked={getIsChecked(answer)}/>
+                    <div className="customCheckbox">
+                        <div className="checkmark"/>
+                    </div>
+                    {answer}
+                </div>
+            })}
+        </div>
+    }, [id, choices, updateAnswer, getIsChecked]);
+
+    const answerComponent = useMemo(() => {
+        switch (type) {
+            case "Einfachauswahl":
+                return singleSelectComponent
             case "Mehrfachauswahl":
-                content = returnMultiselect();
-                break
-            case "QuestionSlideContainer":
-                content = <div/>;
-                break
+                return multiSelectComponent
             default:
-                content = returnSingleSelect()
+                return null
         }
-        return content
-    }
-
-    const returnSingleSelect = (): JSX.Element => {
-        return (
-            <div className={"RadioGroup"}>
-                {question.choices.map(answer => (
-                    //Here we map the amount of choices to a radio Button
-                    <>
-                        <input type="radio"
-                               value={answer}
-                               name="question"
-                        />
-                        {answer}
-                        <br/>
-                    </>))}
-            </div>
-        )
-    }
-
-    const returnMultiselect = (): JSX.Element => {
-        return (
-            <div className={"RadioGroup"}>
-                {question.choices.map(answer => (
-                    //Here we map the amount of choices to a radio Button
-                    <>
-                        <input type="radio"
-                               value={answer}
-                               name={answer}
-                        />
-                        {answer}
-                        <br/>
-                    </>))}
-            </div>
-        )
-    }
+    }, [type, singleSelectComponent, multiSelectComponent]);
 
     return (
         <div className="questionContent">
             <div className="questionText">
-                {question.text}
+                {text}
             </div>
             <div className="questionAnswers">
-                {getComponent()}
+                {answerComponent}
             </div>
         </div>
     );
