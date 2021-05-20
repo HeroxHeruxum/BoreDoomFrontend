@@ -1,7 +1,7 @@
 import "./pageContainer.scss";
 import {Header} from "../../components/header/header";
-import {Imprint} from "../../components/imprint/imprint";
-import { Visible } from "../../components/visible/visible";
+import {Footer} from "../../components/footer/footer";
+import {Visible} from "../../components/visible/visible";
 
 
 interface PageContainerProps {
@@ -26,7 +26,7 @@ export function PageContainer(props: PageContainerProps) {
                 {children}
             </body>
             <footer>
-                <Imprint/>
+                <Footer/>
             </footer>
         </div>
     );
