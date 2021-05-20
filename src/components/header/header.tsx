@@ -41,10 +41,9 @@ export function Header() {
         <div className="header">
             <div className="headerLeft">
                 <a className="headerLogoLink" href="/">
-                    {/*<img className="headerLogo" src={...}/>*/}
-                    <div style={{fontSize: "30px", color: "#FFFFFF", textDecoration: "none"}}>BoreDoom</div>
+                    BoreDoom
                 </a>
-                <Button type="header" title="Fragenkatalog" onClick={getOnClickMenuButton("questions")}/>
+                <Button type="header" title="Fragen" onClick={getOnClickMenuButton("questions")}/>
                 <Button type="header" title="Glückstreffer" onClick={getOnClickMenuButton("luckystrike")}/>
                 <Button type="header" title="Merkliste" onClick={getOnClickMenuButton("bookmarks")}/>
             </div>

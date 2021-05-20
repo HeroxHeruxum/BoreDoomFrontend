@@ -5,7 +5,7 @@ import {Button} from "../button/button";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 import {toast, ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import {LoginContainerProps} from "../../misc/types";
 
 
@@ -92,7 +92,7 @@ export function LoginContainer(props: LoginContainerProps) {
                     Benutzername
                 </div>
                 <input className="loginInput" type="text"
-                       autoFocus={isRegister} onChange={(e) => {
+                       autoFocus={true} onChange={(e) => {
                     setUsername(e.target.value)
                 }}/>
             </div>
@@ -102,7 +102,7 @@ export function LoginContainer(props: LoginContainerProps) {
                         E-Mail-Adresse
                     </div>
                     <input className="loginInput" type="email"
-                           autoFocus={!isRegister} onChange={(e) => {
+                           onChange={(e) => {
                         setEmail(e.target.value)
                     }}/>
                 </div>
@@ -136,7 +136,7 @@ export function LoginContainer(props: LoginContainerProps) {
                 </Visible>
                 <Visible if={isRegister}>
                     <a className="registerLink" href="/login">
-                        Bereits registreiert? gehe zum Login!
+                        Zurück zum Login
                     </a>
                 </Visible>
             </div>

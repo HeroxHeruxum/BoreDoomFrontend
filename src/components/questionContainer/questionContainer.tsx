@@ -15,10 +15,13 @@ export function QuestionContainer() {
         const mockQuestion: Question = {
             id: 1,
             text: "Da ging etwas schief",
-            type: "Einfachauswahl",
-            choices: [{id:1, value: "Der Server ist tot"}]
+            type: "SINGLE_CHOICE",
+            choices: [
+                {id: 1, value: "Der Server ist tot"},
+                {id: 2, value: "Der Server ist nicht tot"}
+            ]
         };
-        return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "Mehrfachauswahl"}]
+        return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "MULTIPLE_CHOICE"}]
     }, []);
     const [fetchedData, setFetchedData] = useState(mockData);
     
@@ -75,13 +78,13 @@ export function QuestionContainer() {
             return answer.id !== id
         });
         switch(activeQuestion.type) {
-            case "Einfachauswahl":
+            case "SINGLE_CHOICE":
                 updatedAnswer = {
                     ...updatedAnswer,
                     selectedChoices: [selectedCoice]
                 };
                 break;
-            case "Mehrfachauswahl":
+            case "MULTIPLE_CHOICE":
                 const choices = toggleValueInArray(updatedAnswer.selectedChoices, selectedCoice);
                 updatedAnswer = {
                     ...updatedAnswer,

@@ -57,7 +57,6 @@ export function QuestionContent(props: QuestionContentProps) {
             case "MULTIPLE_CHOICE":
                 return multiSelectComponent
             default:
-                console.log(type)
                 return null
         }
     }, [type, singleSelectComponent, multiSelectComponent]);

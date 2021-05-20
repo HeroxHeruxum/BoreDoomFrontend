@@ -17,16 +17,13 @@
 
         .headerLogoLink {
             margin-right: $big;
+            font-size: $fontSizeLogo;
             text-decoration: none;
+            color: $white;
             cursor: pointer;
 
             &:focus {
                 outline: dotted 1px $white;
-            }
-
-            .headerLogo {
-                height: $logoHeight;
-                object-fit: contain;
             }
         }
     }
