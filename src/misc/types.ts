@@ -55,5 +55,5 @@ export type Result ={
 }
 
 export type LoginContainerProps = {
-    register: boolean
+    isRegister: boolean
 }

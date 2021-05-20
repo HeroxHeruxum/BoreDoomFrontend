@@ -8,7 +8,7 @@ export function LoginPage(props: RouteProps): JSX.Element {
 
     return (
         <PageContainer>
-            <LoginContainer register={register}/>
+            <LoginContainer isRegister={register}/>
         </PageContainer>
     );
 }
