@@ -43,13 +43,13 @@ export function LoginContainer(props: LoginContainerProps) {
                 notify("passwörterungleich")
             } else {
                 axios.post("http://localhost:8082/register", {username: username, email: email, password: password})
-                    .catch((e) => {
-                        notify(e.toString())
-                    })
-                    .finally(() => {
+                    .then(() => {
                             history.push("/login")
                         }
                     )
+                    .catch((e) => {
+                        notify(e.response.data)
+                    })
             }
         } else {
             if ((username === "") || (password === "")) {

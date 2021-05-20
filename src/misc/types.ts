@@ -53,3 +53,7 @@ export type Result ={
     genre: string
     
 }
+
+export type LoginContainerProps = {
+    register: boolean
+}
