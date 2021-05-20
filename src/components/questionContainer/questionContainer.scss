@@ -1,6 +1,15 @@
 @import "../../styles/_globals";
 
 
+.loading {
+  margin-top: $big;
+}
+
+.noResults {
+    margin-top: $big;
+    color: $grey;
+}
+
 .questionContainer {
   display: flex;
   flex-direction: column;
@@ -46,13 +55,4 @@
       background-color: $darkBlue;
     }
   }
-}
-
-.Slider{
-  position: relative;
-  height: 100vh;
-  width: 100vh;
-  margin: 0 auto;
-  overflow: hidden;
-  border: #282c34 1px;
 }

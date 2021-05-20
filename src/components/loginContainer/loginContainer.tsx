@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import "./loginContainer.scss";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
@@ -11,9 +11,9 @@ import {LoginContainerProps} from "../../misc/types";
 
 export function LoginContainer(props: LoginContainerProps) {
 
-    const notify = (error: any) => {
-        toast.error(error)
-    }
+    const showNotification = useCallback((message: string) => {
+        toast.error(message)
+    }, [toast]);
 
     /**
      * Here we set up the sate of  this component. There is the possibility to use a global state with an library
@@ -48,9 +48,9 @@ export function LoginContainer(props: LoginContainerProps) {
     const onClickButton = () => {
         if (isRegister) {
             if ((email === "") || (password === "") || (username === "")) {
-                notify("nicht alle Felder ausgefüllt")
+                showNotification("nicht alle Felder ausgefüllt")
             } else if (password !== confirmPassword) {
-                notify("passwörterungleich")
+                showNotification("Passwörter ungleich")
             } else {
                 axios.post("http://localhost:8082/register", {username: username, email: email, password: password})
                     .then(() => {
@@ -58,19 +58,19 @@ export function LoginContainer(props: LoginContainerProps) {
                         }
                     )
                     .catch((e) => {
-                        notify(e.response.data)
+                        showNotification(e.response.data)
                     })
             }
         } else {
             if ((username === "") || (password === "")) {
-                notify("nicht alle Felder ausgefüllt")
+                showNotification("nicht alle Felder ausgefüllt")
             } else {
                 axios.post("http://localhost:8082/login", {username: username, password: password})
                     .then(() => {
                         history.push("/")
                     })
                     .catch((e) => {
-                        notify(e.response.data)
+                        showNotification(e.response.data)
                     })
             }
         }
