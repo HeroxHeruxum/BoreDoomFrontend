@@ -7,7 +7,7 @@ import {PageContainer} from "../pageContainer/pageContainer";
 import {MediaTypeElement} from "../../components/mediaTypeElement/mediaTypeElement";
 
 
-export function MediaPage(props: RouteProps) {
+export function MediaPage(props: RouteProps):JSX.Element {
     const isBookmark = !!props.location?.pathname.includes("bookmarks");
     const title = useMemo(() => {
         return isBookmark ? "Deine Merkliste" : "Ergebnisse deiner Suche"
@@ -22,33 +22,42 @@ export function MediaPage(props: RouteProps) {
             genre: "Katzig",
             producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE"
         };
-        return [{...mockMedia, mediaType: "FILM"}, mockMedia, mockMedia, mockMedia, mockMedia]
+        return [{...mockMedia, mediaType: "MOVIE"}, mockMedia, mockMedia, mockMedia, mockMedia]
     }, []);
+
     const [fetchedData, setFetchedData] = useState(mockData);
 
     const showNotification = useCallback((message: string) => {
         toast.error(message)
     }, [toast]);
+
     const addBookmark = useCallback((id: number, mediaType: string) => {
         axios.put(`http://localhost:8082/user/favorites/saveMedia?mediaId=${id}&mediaType=${mediaType}`)
+            .then()
             .catch(error => showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`))
     }, [axios, showNotification]);
+
     const deleteBookmark = useCallback((id: number, mediaType: string) => {
-        //hier REST call pls
-    }, []);
+        axios.put(`http://localhost:8082/user/favorites/deleteMedia?mediaId=${id}&mediaType=${mediaType}`)
+            .then()
+            .catch(error => showNotification(`Fehler beim löschen: ${error.toString()}`))
+    }, [axios, showNotification]);
+
     const toggleIsBookmark = useMemo(() => {
         return isBookmark ? deleteBookmark : addBookmark
     }, [isBookmark, addBookmark, deleteBookmark]);
-    
+
     const mediaTypesFetchData = useMemo(() => {
         return fetchedData.reduce((acc, curr) => {
             const previousTypeMedia = acc[curr.mediaType] || [];
             return {...acc, [curr.mediaType]: [...previousTypeMedia, curr]}
-        }, {} as {[mediaType: string]: Media[]})
+        }, {} as { [mediaType: string]: Media[] })
     }, [fetchedData]);
+
     const getMediaTypeTitle = useCallback((mediaType: string) => {
         return mediaType === "BOOK" ? "Bücher" : "Filme"
     }, []);
+
     const mediaTypeElements = useMemo(() => {
         return Object.entries(mediaTypesFetchData)
             .map(([mediaType, media]) => {
