@@ -36,6 +36,7 @@ export function Header() {
         history.push(`/${subPath}`);
     }, [history]);
 
+
     return (
         <div className="header">
             <div className="headerLeft">
@@ -57,7 +58,6 @@ export function Header() {
                     <Button type="header" title="Log Out" onClick={logOut}/>
                 </div>
             </Visible>
-
         </div>
     );
 }

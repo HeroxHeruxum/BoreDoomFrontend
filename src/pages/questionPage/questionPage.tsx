@@ -1,20 +1,13 @@
 import React from 'react';
 import "../mainPage/mainPage.scss"
-import {Header} from "../../components/header/header";
-import {Impressum} from "../../components/impressum/impressum";
 import {QuestionSlideContainer} from "../../components/questionComponents/questionSlideContainer";
+import {PageContainer} from '../pageContainer/pageContainer';
 
 
 export function QuestionPage(): JSX.Element {
     return (
-        <>
-            <header>
-                <Header/>
-            </header>
-            <body>
+        <PageContainer>
             <QuestionSlideContainer/>
-            <Impressum/>
-            </body>
-        </>
+        </PageContainer>
     );
 }

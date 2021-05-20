@@ -1,13 +1,18 @@
-@import "../../styles/sizes.scss";
-@import "../../styles/colors.scss";
+@import "../../styles/_globals.scss";
 
 
 .button {
-    box-sizing: border-box;
+    margin: 1px;
+    border: 0;
     background-color: $darkBlue;
+    font-size: $fontSizeDefault;
     color: $white;
+    text-decoration: none;
     cursor: pointer;
-    border:0px;
+
+    &:focus {
+        outline: dotted 1px;
+    }
 
     &:hover {
         background-color: $darkBlueHover;
@@ -21,6 +26,11 @@
         border-radius: $tinySmall;
         padding: $tinySmall $large;
 
+        &:focus {
+            outline-color: $black;
+            outline-offset: 2px;
+        }
+
         &.disabled {
             background-color: $grey;
 
@@ -33,9 +43,44 @@
     &.headerButton {
         padding: $small;
 
+        &:focus {
+            outline-color: $white;
+        }
+
         &.disabled {
             &:hover, &:active {
                 background-color: $darkBlue;
+            }
+        }
+    }
+
+    &.linkButton {
+        margin: $tiny;
+        border: solid $small $white;
+        text-align: center;
+        font-size: $fontSizeSmall;
+        background-color: $white;
+        color: $darkBlue;
+        text-decoration: underline;
+
+        &:focus {
+            outline-color: $black;
+            outline-offset: -4px;
+        }
+
+        &:hover {
+            color: $darkBlueHover;
+        }
+    
+        &:active {
+            color: $darkBlueActive;
+        }
+
+        &.disabled {
+            color: $grey;
+
+            &:hover, &:active {
+                color: $grey;
             }
         }
     }

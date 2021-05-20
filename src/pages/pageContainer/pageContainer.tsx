@@ -1,10 +1,10 @@
 import "./pageContainer.scss";
 import {Header} from "../../components/header/header";
-import {Impressum} from "../../components/impressum/impressum";
+import {Imprint} from "../../components/imprint/imprint";
 
 
 interface PageContainerProps {
-    children: JSX.Element
+    children: JSX.Element | JSX.Element[]
 }
 
 export function PageContainer(props: PageContainerProps): JSX.Element {
@@ -17,7 +17,7 @@ export function PageContainer(props: PageContainerProps): JSX.Element {
                 {props.children}
             </body>
             <footer>
-                <Impressum/>
+                <Imprint/>
             </footer>
         </div>
     );

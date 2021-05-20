@@ -11,8 +11,6 @@ import {LoginContainerProps} from "../../misc/types";
 
 export function LoginContainer(props: LoginContainerProps) {
 
-    const history = useHistory()
-
     const notify = (error: any) => {
         toast.error(error)
     }
@@ -30,6 +28,7 @@ export function LoginContainer(props: LoginContainerProps) {
 
     const {isRegister} = props;
 
+    const history = useHistory();
     const loginHeader = useMemo(() => {
         return isRegister ? "Registrierung" : "Anmeldung";
     }, [isRegister]);
