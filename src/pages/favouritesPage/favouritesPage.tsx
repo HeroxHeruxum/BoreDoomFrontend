@@ -73,7 +73,6 @@ export function FavouritesPage() {
                                                  deleteAsFavourite(item.id,item.mediaType)
                                              }}/>
                                          </Tooltip>
-
                                      }
                     />
 
