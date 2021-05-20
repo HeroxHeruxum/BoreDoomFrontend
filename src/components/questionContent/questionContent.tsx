@@ -20,14 +20,14 @@ export function QuestionContent(props: QuestionContentProps) {
         return <div className="selectionWrapper">
             {choices.map(answer => {
                 return <div className="selection"
-                            onClick={() => updateAnswer(id, answer)}>
+                            onClick={() => updateAnswer(id, answer.value)}>
                     <input className="inputButton" type="radio"
-                           name={`question${id}`} value={answer}
-                           checked={getIsChecked(answer)}/>
+                           name={`question${id}`} value={answer.value}
+                           checked={getIsChecked(answer.value)}/>
                     <div className="customRadio">
                         <div className="checkmark"/>
                     </div>
-                    {answer}
+                    {answer.value}
                 </div>
             })}
         </div>
@@ -37,14 +37,14 @@ export function QuestionContent(props: QuestionContentProps) {
         return <div className="selectionWrapper">
             {choices.map(answer => {
                 return <div className="selection"
-                            onClick={() => updateAnswer(id, answer)}>
+                            onClick={() => updateAnswer(id, answer.value)}>
                     <input className="inputButton" type="checkbox"
-                           name={`question${id}`} value={answer}
-                           checked={getIsChecked(answer)}/>
+                           name={`question${id}`} value={answer.value}
+                           checked={getIsChecked(answer.value)}/>
                     <div className="customCheckbox">
                         <div className="checkmark"/>
                     </div>
-                    {answer}
+                    {answer.value}
                 </div>
             })}
         </div>
@@ -52,11 +52,12 @@ export function QuestionContent(props: QuestionContentProps) {
 
     const answerComponent = useMemo(() => {
         switch (type) {
-            case "Einfachauswahl":
+            case "SINGLE_CHOICE":
                 return singleSelectComponent
-            case "Mehrfachauswahl":
+            case "MULTIPLE_CHOICE":
                 return multiSelectComponent
             default:
+                console.log(type)
                 return null
         }
     }, [type, singleSelectComponent, multiSelectComponent]);

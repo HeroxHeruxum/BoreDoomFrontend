@@ -16,7 +16,7 @@ export function QuestionContainer() {
             id: 1,
             text: "Da ging etwas schief",
             type: "Einfachauswahl",
-            choices: ["Der Server", "ist nicht", "erreichbar"]
+            choices: [{id:1, value: "Der Server ist tot"}]
         };
         return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "Mehrfachauswahl"}]
     }, []);
@@ -25,11 +25,13 @@ export function QuestionContainer() {
     const showNotification = useCallback((message: string) => {
         toast.error(message)
     }, [toast]);
+
     useEffect(() => {
         //REST call for fetching questions
-        axios.get<[]>("http://localhost:8082/question", {withCredentials: true})
+        axios.get<[]>("http://localhost:8082/question")
             .then(response => {
                 setFetchedData(response.data)
+                console.error(fetchedData)
             })
             .catch(error => {
                 showNotification("Fehler bei der Datenbeschaffung: "+error.toString())
@@ -38,16 +40,19 @@ export function QuestionContainer() {
 
     const numberOfQuestions = useMemo(() => fetchedData.length, [fetchedData]);
     const [questionIndex, setQuestionIndex] = useState(0);
+
     const increaseQuestionIndex = useCallback(() => {
         if (questionIndex < numberOfQuestions - 1) {
             setQuestionIndex(questionIndex + 1)
         }
     }, [numberOfQuestions, questionIndex, setQuestionIndex]);
+
     const decreaseQuestionIndex = useCallback(() => {
         if (questionIndex > 0) {
             setQuestionIndex(questionIndex - 1)
         }
     }, [questionIndex, setQuestionIndex]);
+
     const activeQuestion = useMemo(() => {
         return fetchedData[questionIndex]
     }, [fetchedData, questionIndex]);
@@ -60,6 +65,7 @@ export function QuestionContainer() {
         }
     }, []);
     const [answers, setAnswers] = useState<Answer[]>([]);
+
     const updateAnswer = useCallback((id: number, selectedCoice: string) => {
         let updatedAnswer: Answer = {id, selectedChoices: []};
         const otherAnswers = answers.filter(answer => {
@@ -85,6 +91,7 @@ export function QuestionContainer() {
         }
         setAnswers([...otherAnswers, updatedAnswer])
     }, [activeQuestion, answers, setAnswers, toggleValueInArray]);
+
     const activeAnswer = useMemo(() => {
         return answers.find(answer => answer.id === activeQuestion.id)
     }, [activeQuestion, answers]);

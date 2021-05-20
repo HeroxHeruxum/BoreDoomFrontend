@@ -1,11 +1,17 @@
 import {MouseEvent} from "react";
 
+type Choices ={
+    id: number,
+    value: string,
+}
+
 export type Question = {
     id: number,
     type: string,
     text: string,
-    choices: Array<string>
+    choices: Array<Choices>
 }
+
 
 export type Answer = {
     id: number,

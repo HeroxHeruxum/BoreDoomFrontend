@@ -46,7 +46,6 @@ export function Header() {
                 <Button type="header" title="Glückstreffer" onClick={getOnClickMenuButton("luckystrike")}/>
                 <Button type="header" title="Merkliste" onClick={getOnClickMenuButton("bookmark" +
                     "s")}/>
-                <Button type="header" title="Kontakt" onClick={getOnClickMenuButton("contact")}/>
             </div>
             <Visible if={!isAuthenticated}>
                 <div className="headerRight">

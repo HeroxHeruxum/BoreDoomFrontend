@@ -15,7 +15,7 @@ export function MediaPage(props: RouteProps):JSX.Element {
 
     const mockData = useMemo(() => {
         const mockMedia: Media = {
-            id: 1,
+            id: 28,
             mediaType: "BOOK",
             imgUrl: "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
             title: "Ein Unfassbar langer Titel damit ich den overflow testen kann und keine dumme URL verwenden muss",
