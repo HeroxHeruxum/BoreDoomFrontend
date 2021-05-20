@@ -31,8 +31,6 @@ export function ResultPage() {
         producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE",
         title: "Harry Broter und der Waise von Kaskaban",
         genre: "Katzig",
-
-
     }
     mockData.push(mockResult)
     mockData.push(mockResult)

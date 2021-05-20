@@ -1,18 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ResultComponent} from "../../components/resultComponent/resultComponent";
 import {Result} from "../../misc/types";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from '@material-ui/icons/Delete';
 import './favouritesPage.scss'
 import {PageContainer} from '../pageContainer/pageContainer';
+import axios from "axios";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export function FavouritesPage() {
 
-    const markAsFavourite = (): void => {
-        // hier rest Call pls
+    //toastHook
+    const notify = (error: any) => {
+        toast.error(error)
     }
-    let mockData = [];
+
+
+    let initialData = [];
     const mockResult: Result = {
         id: 1,
         mediaType: "BOOK",
@@ -22,13 +28,36 @@ export function FavouritesPage() {
         genre: "Katzig",
 
     }
-    mockData.push(mockResult)
-    mockData.push(mockResult)
-    mockData.push(mockResult)
-    mockData.push(mockResult)
-    mockData.push(mockResult)
+    initialData.push(mockResult)
 
-    const [fetchedData, setFetchedData] = useState(mockData)
+    const [fetchedData, setFetchedData] = useState(initialData)
+
+    const getData = ()=>{
+        axios
+            .get("http://localhost:8082/user/favorites/")
+            .then((response) => {
+                setFetchedData(response.data)
+            })
+            .catch(() => {
+                setFetchedData([])
+                notify("Du scheinst nicht angemeldet zu sein!")
+            })
+    }
+
+    useEffect(() => {
+    getData();
+    }, [])
+
+    const deleteAsFavourite = (id: number, mediaType:string): void => {
+        axios
+            .put("http://localhost:8082/user/favorites/deleteMedia?mediaId=" + id + "&mediaType=" + mediaType)
+            .then(
+                ()=>{toast.info("Erfolgreich");
+                getData();
+            })
+            .catch((e)=>{console.log(e)})
+    }
+
     const returnResults = (): JSX.Element => {
         return (
             <div>
@@ -40,9 +69,10 @@ export function FavouritesPage() {
                                      genre={item.genre}
                                      functionalButton={
                                          <Tooltip title={"Löschen"}>
-                                             <DeleteIcon className={"deleteButton"} onClick={markAsFavourite}/>
+                                             <DeleteIcon className={"deleteButton"} onClick={() => {
+                                                 deleteAsFavourite(item.id,item.mediaType)
+                                             }}/>
                                          </Tooltip>
-
                                      }
                     />
 
@@ -53,6 +83,7 @@ export function FavouritesPage() {
     }
     return (
         <PageContainer>
+            <ToastContainer/>
             {returnResults()}
         </PageContainer>
     );
