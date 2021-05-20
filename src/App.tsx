@@ -4,6 +4,7 @@ import {MainPage} from "./pages/mainPage/mainPage";
 import {QuestionPage} from "./pages/questionPage/questionPage";
 import {MediaPage} from "./pages/mediaPage/mediaPage";
 import {LoginPage} from "./pages/loginPage/loginPage";
+import {ImprintPage} from "./pages/imprintPage/imprintPage";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                 <Route exact path={"/bookmarks"} render={props => <MediaPage {...props}/>}/>
                 <Route exact path={"/login"} render={props => <LoginPage {...props}/>}/>
                 <Route exact path={"/register"} render={props => <LoginPage {...props}/>}/>
+                <Route exact path={"/imprint"} render={() => <ImprintPage/>}/>
             </Switch>
         </BrowserRouter>
     );
