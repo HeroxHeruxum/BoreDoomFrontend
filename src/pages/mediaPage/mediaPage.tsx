@@ -1,9 +1,11 @@
-import React, {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {RouteProps} from "react-router";
+import "./mediaPage.scss";
 import {Media} from "../../misc/types";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import {PageContainer} from "../pageContainer/pageContainer";
+import {Visible} from "../../components/visible/visible";
 import {MediaTypeElement} from "../../components/mediaTypeElement/mediaTypeElement";
 
 
@@ -12,20 +14,24 @@ export function MediaPage(props: RouteProps):JSX.Element {
     const title = useMemo(() => {
         return isBookmark ? "Deine Merkliste" : "Ergebnisse deiner Suche"
     }, [isBookmark]);
+    const emptyElement = useMemo(() => {
+        return isBookmark
+        ? <p>
+            Es befinden sich keine Medien auf deiner Merkliste. Zum Hinzufügen
+            drücke bei den Ergebnissen deiner Suche auf den Stern oben rechts.
+        </p>
+        : <p className="noResults">
+            keine Ergebnisse gefunden
+        </p>
+    }, [isBookmark]);
 
-    const mockData = useMemo(() => {
-        const mockMedia: Media = {
-            id: 28,
-            mediaType: "BOOK",
-            imgUrl: "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
-            title: "Ein Unfassbar langer Titel damit ich den overflow testen kann und keine dumme URL verwenden muss",
-            genre: "Katzig",
-            producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE"
-        };
-        return [{...mockMedia, mediaType: "MOVIE"}, mockMedia, mockMedia, mockMedia, mockMedia]
-    }, []);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [fetchedData, setFetchedData] = useState<Media[]>([]);
 
-    const [fetchedData, setFetchedData] = useState(mockData);
+    useEffect(() => {
+        //setIsLoading(false);
+    }, [setIsLoading]);
 
     const showNotification = useCallback((message: string) => {
         toast.error(message)
@@ -77,7 +83,29 @@ export function MediaPage(props: RouteProps):JSX.Element {
     return (
         <PageContainer title={title}>
             <ToastContainer/>
-            {mediaTypeElements as any}
+            <Visible if={!isLoggedIn}>
+                <p className="informationText">
+                    Registrierte Nutzer können Medien aus den Ergebnissen
+                    ihrer Suchen zu ihrer Merkliste hinzufügen und sich hier
+                    wieder ansehen. Zum Anmelden oder Registrieren drück
+                    bitte oben rechts.
+                </p>
+            </Visible>
+            <Visible if={isLoggedIn}>
+                <Visible if={isLoading}>
+                    <p className="loading">
+                        lädt Ergebnisse...
+                    </p>
+                </Visible>
+                <Visible if={!isLoading}>
+                    <Visible if={fetchedData.length === 0}>
+                        {emptyElement}
+                    </Visible>
+                    <Visible if={fetchedData.length > 0}>
+                        {mediaTypeElements}
+                    </Visible>
+                </Visible>
+            </Visible>
         </PageContainer>
     );
 }

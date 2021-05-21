@@ -2,8 +2,31 @@
 
 
 .imprint {
-  display: flex;
-  justify-content: center;
-  border-top: solid 1px $grey;
-  padding: $small;
+  .headline {
+    margin: $huge 0 $default 0;
+    border-bottom: solid 1px $darkBlue;
+    font-size: $fontSizeBig;
+    font-weight: $fontWeightBold;
+    color: $darkBlue;
+  }
+
+  .contentHeadline {
+    margin: $default 0 $tiny 0;
+    font-size: $fontSizeBig;
+  }
+
+  .content {
+    margin: $tiny 0;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  .kleingedrucktes {
+    margin-top: $huge;
+    font-size: $fontSizeSmall;
+    font-weight: $fontWeightLight;
+    text-align: justify;
+  }
 }
