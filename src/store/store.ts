@@ -1,5 +1,4 @@
 import {configureStore} from "@reduxjs/toolkit";
-import answerReducer from "./answerReducer";
 
 const store = configureStore(
     {

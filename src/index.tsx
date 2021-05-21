@@ -11,6 +11,7 @@ import answerReducer from './store/answerReducer'
 import {Provider} from "react-redux";
 
 axios.defaults.withCredentials = true;
+
 export const store: Store<AnswerState, AnswerAction> & {
     dispatch: DispatchType
 } = createStore(answerReducer, applyMiddleware(thunk))
