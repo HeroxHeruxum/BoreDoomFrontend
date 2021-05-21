@@ -29,9 +29,6 @@ export function MediaPage(props: RouteProps): JSX.Element {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [fetchedData, setFetchedData] = useState<Media[]>([]);
-    const answers = useSelector(
-        (state: AnswerState) => state.answers
-    )
     const mockData = useMemo(() => {
         const mockMedia: Media = {
             id: 28,

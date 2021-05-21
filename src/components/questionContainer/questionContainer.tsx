@@ -10,6 +10,7 @@ import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
 import {Visible} from "../visible/visible";
 import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../store/store";
 
 
 export function QuestionContainer() {
@@ -62,7 +63,7 @@ export function QuestionContainer() {
     const [answers, setAnswers] = useState<Answer[]>([]);
 
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const updateAnswer = useCallback((id: number, selectedCoice: number) => {
         let updatedAnswer: Answer = {questionId: id, choices: []};
@@ -135,7 +136,11 @@ export function QuestionContainer() {
                                 <div className="resultButtonWrapper">
                                     <Button type="standard" title="Auswertung"
                                             disabled={!enableResultButton}
-                                            href="/results"/>
+                                            onClick={()=>{
+                                              //  console.error("I dispatched", answers);
+                                                // dispatch(setAnswers(answers));
+                                           }}
+                                            />
                                 </div>
                             </div>
                             <div className={`questionNavigation ${disableArrowLRight ? "disabled" : ""}`}

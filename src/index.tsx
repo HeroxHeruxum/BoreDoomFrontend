@@ -4,17 +4,10 @@ import './index.scss';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
 import axios from 'axios';
-import {applyMiddleware, createStore, Store} from "redux";
-import {AnswerAction, AnswerState, DispatchType} from "./misc/types";
-import thunk from "redux-thunk";
-import answerReducer from './store/answerReducer'
 import {Provider} from "react-redux";
+import store from "./store/store";
 
 axios.defaults.withCredentials = true;
-
-export const store: Store<AnswerState, AnswerAction> & {
-    dispatch: DispatchType
-} = createStore(answerReducer, applyMiddleware(thunk))
 
 const rootElement = document.getElementById("root")
 ReactDOM.render(
@@ -23,6 +16,7 @@ ReactDOM.render(
             <App/>
         </BrowserRouter>
     </Provider>
+
     ,
     rootElement
 );
