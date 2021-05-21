@@ -13,7 +13,7 @@ export function QuestionContent(props: QuestionContentProps) {
     const {question: {id, type, text, choices}, answer, updateAnswer} = props;
 
     const getIsChecked = useCallback((a: number) => {
-        return answer?.selectedChoices.includes(a)
+        return answer?.choices.includes(a)
     }, [answer]);
 
     const singleSelectComponent = useMemo(() => {

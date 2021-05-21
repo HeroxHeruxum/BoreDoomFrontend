@@ -17,9 +17,9 @@ export function MediaElement(props: MediaElementProps) {
     const {
         id,
         mediaType,
-        imgUrl,
-        title,
-        genre,
+        imageUrl,
+        name,
+        description,
         producerUrl,
         isBookmark,
         toggleIsBookmark
@@ -34,13 +34,13 @@ export function MediaElement(props: MediaElementProps) {
 
     return (
         <div className="mediaElement">
-            <img className="mediaImage" alt="new" src={imgUrl}/>
+            <img className="mediaImage" alt="new" src={imageUrl}/>
             <div className="mediaContent">
                 <div className="mediaTitle">
-                    {title}
+                    {name}
                 </div>
                 <div className="mediaGenre">
-                    {genre}
+                    {description}
                 </div>
                 <div className="linkButtonWrapper">
                     <Button type="link" title="Zum Hersteller" href={producerUrl}/>

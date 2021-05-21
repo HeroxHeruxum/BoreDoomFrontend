@@ -15,15 +15,15 @@ export type Question = {
 
 export type Answer = {
     questionId: number,
-    selectedChoices: Array<number>
+    choices: Array<number>
 }
 
 export type Media = {
     id: number,
     mediaType: string,
-    imgUrl: string,
-    title: string,
-    genre: string,
+    imageUrl: string,
+    name: string,
+    description: string,
     producerUrl: string
 }
 

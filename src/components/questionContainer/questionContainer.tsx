@@ -71,7 +71,7 @@ export function QuestionContainer() {
     }, [dispatch, answers]);
 
     const updateAnswer = useCallback((id: number, selectedCoice: number) => {
-        let updatedAnswer: Answer = {questionId: id, selectedChoices: []};
+        let updatedAnswer: Answer = {questionId: id, choices: []};
         const otherAnswers = answers.filter(answer => {
             if (answer.questionId === id) {
                 updatedAnswer = answer
@@ -82,14 +82,14 @@ export function QuestionContainer() {
             case "SINGLE_CHOICE":
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: [selectedCoice]
+                    choices: [selectedCoice]
                 };
                 break;
             case "MULTIPLE_CHOICE":
-                const choices = toggleValueInArray(updatedAnswer.selectedChoices, selectedCoice);
+                const choices = toggleValueInArray(updatedAnswer.choices, selectedCoice);
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: choices
+                    choices: choices
                 };
                 break;
         }
