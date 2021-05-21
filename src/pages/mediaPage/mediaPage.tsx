@@ -1,18 +1,23 @@
 import React, {useCallback, useMemo, useState} from "react";
 import {RouteProps} from "react-router";
-import {Media} from "../../misc/types";
+import {AnswerState, Media} from "../../misc/types";
 import axios from "axios";
 import {toast, ToastContainer} from "react-toastify";
 import {PageContainer} from "../pageContainer/pageContainer";
 import {MediaTypeElement} from "../../components/mediaTypeElement/mediaTypeElement";
+import {shallowEqual, useSelector} from "react-redux";
+import {store} from "../../index";
 
 
-export function MediaPage(props: RouteProps):JSX.Element {
+export function MediaPage(props: RouteProps): JSX.Element {
     const isBookmark = !!props.location?.pathname.includes("bookmarks");
     const title = useMemo(() => {
         return isBookmark ? "Deine Merkliste" : "Ergebnisse deiner Suche"
     }, [isBookmark]);
 
+    const answers = useSelector(
+        (state:AnswerState) =>state.answers
+    )
     const mockData = useMemo(() => {
         const mockMedia: Media = {
             id: 28,

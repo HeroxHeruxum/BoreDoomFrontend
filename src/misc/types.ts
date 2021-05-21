@@ -14,8 +14,8 @@ export type Question = {
 
 
 export type Answer = {
-    id: number,
-    selectedChoices: Array<string>
+    questionId: number,
+    choices: Array<number>
 }
 
 export type Media = {
@@ -45,15 +45,16 @@ export type ResultComponentProps = {
     functionalButton: JSX.Element
 }
 
-export type Result ={
-    id: number,
-    mediaType: "MOVIE"|"BOOK"
-    imgUrl: string,
-    producerUrl: string,
-    title: string,
-    genre: string
-}
-
 export type LoginContainerProps = {
     isRegister: boolean
 }
+
+export type AnswerState ={
+    answers: Answer[]
+}
+export type AnswerAction ={
+    type: string
+    answers: Answer[]
+}
+
+export type DispatchType = (args: AnswerAction) => AnswerAction

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import "./questionContainer.scss";
-import {toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {Answer, Question} from "../../misc/types";
@@ -8,20 +8,23 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
+import {useDispatch} from "react-redux";
+import {setStoreAnswers} from "../../store/actionCreator";
 
 
 export function QuestionContainer() {
+
     const mockData = useMemo(() => {
         const mockQuestion: Question = {
             id: 1,
             text: "Da ging etwas schief",
             type: "Einfachauswahl",
-            choices: [{id:1, value: "Der Server ist tot"}]
+            choices: [{id: 1, value: "Der Server ist tot"}]
         };
         return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "Mehrfachauswahl"}]
     }, []);
     const [fetchedData, setFetchedData] = useState(mockData);
-    
+
     const showNotification = useCallback((message: string) => {
         toast.error(message)
     }, [toast]);
@@ -34,7 +37,7 @@ export function QuestionContainer() {
                 console.error(fetchedData)
             })
             .catch(error => {
-                showNotification("Fehler bei der Datenbeschaffung: "+error.toString())
+                showNotification("Fehler bei der Datenbeschaffung: " + error.toString())
             });
     }, [axios, setFetchedData, showNotification]);
 
@@ -57,7 +60,7 @@ export function QuestionContainer() {
         return fetchedData[questionIndex]
     }, [fetchedData, questionIndex]);
 
-    const toggleValueInArray = useCallback((array: string[], value: string) => {
+    const toggleValueInArray = useCallback((array: number[], value: number) => {
         if (array.includes(value)) {
             return array.filter(v => v !== value)
         } else {
@@ -66,26 +69,34 @@ export function QuestionContainer() {
     }, []);
     const [answers, setAnswers] = useState<Answer[]>([]);
 
-    const updateAnswer = useCallback((id: number, selectedCoice: string) => {
-        let updatedAnswer: Answer = {id, selectedChoices: []};
+
+    const dispatch = useDispatch()
+
+
+    const sendData = useCallback(() => {
+        dispatch(setStoreAnswers(answers))
+    }, [dispatch, answers]);
+
+    const updateAnswer = useCallback((id: number, selectedCoice: number) => {
+        let updatedAnswer: Answer = {questionId: id, choices: []};
         const otherAnswers = answers.filter(answer => {
-            if (answer.id === id) {
+            if (answer.questionId === id) {
                 updatedAnswer = answer
             }
-            return answer.id !== id
+            return answer.questionId !== id
         });
-        switch(activeQuestion.type) {
-            case "Einfachauswahl":
+        switch (activeQuestion.type) {
+            case "SINGLE_CHOICE":
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: [selectedCoice]
+                    choices: [selectedCoice]
                 };
                 break;
-            case "Mehrfachauswahl":
-                const choices = toggleValueInArray(updatedAnswer.selectedChoices, selectedCoice);
+            case "MULTIPLE_CHOICE":
+                const choices = toggleValueInArray(updatedAnswer.choices, selectedCoice);
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: choices
+                    choices: choices
                 };
                 break;
         }
@@ -93,9 +104,9 @@ export function QuestionContainer() {
     }, [activeQuestion, answers, setAnswers, toggleValueInArray]);
 
     const activeAnswer = useMemo(() => {
-        return answers.find(answer => answer.id === activeQuestion.id)
+        return answers.find(answer => answer.questionId === activeQuestion.id)
     }, [activeQuestion, answers]);
-    
+
     const disableArrowLeft = useMemo(() => {
         return questionIndex === 0
     }, [questionIndex]);
@@ -124,7 +135,8 @@ export function QuestionContainer() {
                     <div className="resultButtonWrapper">
                         <Button type="standard" title="Auswertung"
                                 disabled={!enableResultButton}
-                                href="/results"/>
+                                onClick={sendData}
+                        />
                     </div>
                 </div>
                 <div className={`questionNavigation ${disableArrowLRight ? "disabled" : ""}`}
