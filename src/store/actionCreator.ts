@@ -1,13 +1,20 @@
-import * as actionTypes from "./actionTypes"
-import {Answer, AnswerAction, DispatchType,} from "../misc/types";
+import {Answer, AnswerState,} from "../misc/types";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export function setStoreAnswers(answers: Answer[]) {
-    const action: AnswerAction = {
-        type: actionTypes.SET_ANSWERS,
-        answers: answers,
-    }
-    return (dispatch: DispatchType) => {
-        dispatch(action)
-    }
+const initialState: AnswerState = {
+    answers: []
 }
 
+export const setNewStoreAnswers = createSlice({
+    name: "answers",
+    initialState,
+    reducers: {
+        addAnswers: (state, action: PayloadAction<Answer[]>) => {
+            state.answers = action.payload
+        }
+    }
+})
+
+
+export const {addAnswers} = setNewStoreAnswers.actions
+export default setNewStoreAnswers.reducer

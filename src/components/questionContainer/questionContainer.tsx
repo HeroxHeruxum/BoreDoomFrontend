@@ -8,9 +8,8 @@ import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
-import { Visible } from "../visible/visible";
+import {Visible} from "../visible/visible";
 import {useDispatch} from "react-redux";
-import {setStoreAnswers} from "../../store/actionCreator";
 
 
 export function QuestionContainer() {
@@ -65,11 +64,6 @@ export function QuestionContainer() {
 
     const dispatch = useDispatch()
 
-
-    const sendData = useCallback(() => {
-        dispatch(setStoreAnswers(answers))
-    }, [dispatch, answers]);
-
     const updateAnswer = useCallback((id: number, selectedCoice: number) => {
         let updatedAnswer: Answer = {questionId: id, choices: []};
         const otherAnswers = answers.filter(answer => {
@@ -78,7 +72,7 @@ export function QuestionContainer() {
             }
             return answer.questionId !== id
         });
-        switch(activeQuestion.type) {
+        switch (activeQuestion.type) {
             case "SINGLE_CHOICE":
                 updatedAnswer = {
                     ...updatedAnswer,
@@ -131,13 +125,13 @@ export function QuestionContainer() {
                         <ToastContainer/>
                         <div className="questionContentAndNavigation">
                             <div className={`questionNavigation ${disableArrowLeft ? "disabled" : ""}`}
-                                onClick={decreaseQuestionIndex}>
+                                 onClick={decreaseQuestionIndex}>
                                 <ArrowBackIosIcon/>
                             </div>
                             <div className="questionContent">
                                 <QuestionContent question={activeQuestion}
-                                                answer={activeAnswer}
-                                                updateAnswer={updateAnswer}/>
+                                                 answer={activeAnswer}
+                                                 updateAnswer={updateAnswer}/>
                                 <div className="resultButtonWrapper">
                                     <Button type="standard" title="Auswertung"
                                             disabled={!enableResultButton}
@@ -145,13 +139,13 @@ export function QuestionContainer() {
                                 </div>
                             </div>
                             <div className={`questionNavigation ${disableArrowLRight ? "disabled" : ""}`}
-                                onClick={increaseQuestionIndex}>
+                                 onClick={increaseQuestionIndex}>
                                 <ArrowForwardIosIcon/>
                             </div>
                         </div>
                         <div className="questionProgress">
                             <div className="questionProgressBar"
-                                style={{width: progressPercent}}/>
+                                 style={{width: progressPercent}}/>
                         </div>
                     </div>
                 </Visible>
