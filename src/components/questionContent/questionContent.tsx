@@ -6,24 +6,24 @@ import {Answer, Question} from "../../misc/types";
 interface QuestionContentProps {
     question: Question,
     answer?: Answer,
-    updateAnswer: (id: number, selectedChoice: string) => void
+    updateAnswer: (id: number, selectedChoice: number) => void
 }
 
 export function QuestionContent(props: QuestionContentProps) {
     const {question: {id, type, text, choices}, answer, updateAnswer} = props;
 
-    const getIsChecked = useCallback((a: string) => {
-        return answer?.selectedChoices.includes(a)
+    const getIsChecked = useCallback((a: number) => {
+        return answer?.choices.includes(a)
     }, [answer]);
 
     const singleSelectComponent = useMemo(() => {
         return <div className="selectionWrapper">
             {choices.map(answer => {
                 return <div className="selection"
-                            onClick={() => updateAnswer(id, answer.value)}>
+                            onClick={() => updateAnswer(id, answer.id)}>
                     <input className="inputButton" type="radio"
                            name={`question${id}`} value={answer.value}
-                           checked={getIsChecked(answer.value)}/>
+                           checked={getIsChecked(answer.id)}/>
                     <div className="customRadio">
                         <div className="checkmark"/>
                     </div>
@@ -37,10 +37,10 @@ export function QuestionContent(props: QuestionContentProps) {
         return <div className="selectionWrapper">
             {choices.map(answer => {
                 return <div className="selection"
-                            onClick={() => updateAnswer(id, answer.value)}>
+                            onClick={() => updateAnswer(id, answer.id)}>
                     <input className="inputButton" type="checkbox"
                            name={`question${id}`} value={answer.value}
-                           checked={getIsChecked(answer.value)}/>
+                           checked={getIsChecked(answer.id)}/>
                     <div className="customCheckbox">
                         <div className="checkmark"/>
                     </div>

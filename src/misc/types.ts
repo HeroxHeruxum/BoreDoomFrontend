@@ -14,16 +14,16 @@ export type Question = {
 }
 
 export type Answer = {
-    id: number,
-    selectedChoices: Array<string>
+    questionId: number,
+    choices: Array<number>
 }
 
 export type Media = {
     id: number,
     mediaType: string,
-    imgUrl: string,
-    title: string,
-    genre: string,
+    imageUrl: string,
+    name: string,
+    description: string,
     producerUrl: string
 }
 
@@ -36,16 +36,16 @@ export type ButtonProps = {
     href?: string,
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
 }
-
-export type Result = {
-    id: number,
-    mediaType: "MOVIE" | "BOOK",
-    imgUrl: string,
-    producerUrl: string,
-    title: string,
-    genre: string
+export type LoginContainerProps ={
+    isRegister:boolean
 }
 
-export type LoginContainerProps = {
-    isRegister: boolean
+export type AnswerState ={
+    answers: Answer[]
 }
+export type AnswerAction ={
+    type: string
+    answers: Answer[]
+}
+
+export type DispatchType = (args: AnswerAction) => AnswerAction

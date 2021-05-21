@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import "./questionContainer.scss";
-import {toast, ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {Answer, Question} from "../../misc/types";
@@ -9,12 +9,14 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
 import { Visible } from "../visible/visible";
+import {useDispatch} from "react-redux";
+import {setStoreAnswers} from "../../store/actionCreator";
 
 
 export function QuestionContainer() {
     const [isLoading, setIsLoading] = useState(true);
     const [fetchedData, setFetchedData] = useState<Question[]>([]);
-    
+
     const showNotification = useCallback((message: string) => {
         toast.error(message)
     }, [toast]);
@@ -51,7 +53,7 @@ export function QuestionContainer() {
         return fetchedData[questionIndex]
     }, [fetchedData, questionIndex]);
 
-    const toggleValueInArray = useCallback((array: string[], value: string) => {
+    const toggleValueInArray = useCallback((array: number[], value: number) => {
         if (array.includes(value)) {
             return array.filter(v => v !== value)
         } else {
@@ -60,26 +62,34 @@ export function QuestionContainer() {
     }, []);
     const [answers, setAnswers] = useState<Answer[]>([]);
 
-    const updateAnswer = useCallback((id: number, selectedCoice: string) => {
-        let updatedAnswer: Answer = {id, selectedChoices: []};
+
+    const dispatch = useDispatch()
+
+
+    const sendData = useCallback(() => {
+        dispatch(setStoreAnswers(answers))
+    }, [dispatch, answers]);
+
+    const updateAnswer = useCallback((id: number, selectedCoice: number) => {
+        let updatedAnswer: Answer = {questionId: id, choices: []};
         const otherAnswers = answers.filter(answer => {
-            if (answer.id === id) {
+            if (answer.questionId === id) {
                 updatedAnswer = answer
             }
-            return answer.id !== id
+            return answer.questionId !== id
         });
         switch(activeQuestion.type) {
             case "SINGLE_CHOICE":
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: [selectedCoice]
+                    choices: [selectedCoice]
                 };
                 break;
             case "MULTIPLE_CHOICE":
-                const choices = toggleValueInArray(updatedAnswer.selectedChoices, selectedCoice);
+                const choices = toggleValueInArray(updatedAnswer.choices, selectedCoice);
                 updatedAnswer = {
                     ...updatedAnswer,
-                    selectedChoices: choices
+                    choices: choices
                 };
                 break;
         }
@@ -87,9 +97,9 @@ export function QuestionContainer() {
     }, [activeQuestion, answers, setAnswers, toggleValueInArray]);
 
     const activeAnswer = useMemo(() => {
-        return answers.find(answer => answer.id === activeQuestion.id)
+        return answers.find(answer => answer.questionId === activeQuestion.id)
     }, [activeQuestion, answers]);
-    
+
     const disableArrowLeft = useMemo(() => {
         return questionIndex === 0
     }, [questionIndex]);
