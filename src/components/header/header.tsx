@@ -44,7 +44,6 @@ export function Header() {
                     BoreDoom
                 </a>
                 <Button type="header" title="Fragen" onClick={getOnClickMenuButton("questions")}/>
-                <Button type="header" title="Glückstreffer" onClick={getOnClickMenuButton("luckystrike")}/>
                 <Button type="header" title="Merkliste" onClick={getOnClickMenuButton("bookmarks")}/>
             </div>
             <Visible if={!isAuthenticated}>
@@ -54,7 +53,7 @@ export function Header() {
             </Visible>
             <Visible if={isAuthenticated}>
                 <div className="headerRight">
-                    <Button type="header" title="Log Out" onClick={logOut}/>
+                    <Button type="header" title="Abmelden" onClick={logOut}/>
                 </div>
             </Visible>
         </div>

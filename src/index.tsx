@@ -7,13 +7,13 @@ import axios from 'axios';
 import {applyMiddleware, createStore, Store} from "redux";
 import {AnswerAction, AnswerState, DispatchType} from "./misc/types";
 import thunk from "redux-thunk";
-import reducer from './store/reducer'
+import answerReducer from './store/answerReducer'
 import {Provider} from "react-redux";
 
 axios.defaults.withCredentials = true;
 export const store: Store<AnswerState, AnswerAction> & {
     dispatch: DispatchType
-} = createStore(reducer, applyMiddleware(thunk))
+} = createStore(answerReducer, applyMiddleware(thunk))
 
 const rootElement = document.getElementById("root")
 ReactDOM.render(

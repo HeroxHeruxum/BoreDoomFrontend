@@ -69,7 +69,10 @@ export function MediaPage(props: RouteProps): JSX.Element {
                     setFetchedData(response.data);
                     setIsLoading(false);
                 })
-                .catch(error => showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`))
+                .catch(error => {
+                    showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`);
+                    setIsLoading(false);
+                })
 
         } else {
             setIsLoading(true)
@@ -79,14 +82,12 @@ export function MediaPage(props: RouteProps): JSX.Element {
                     setFetchedData(response.data);
                     setIsLoading(false);
                 })
-                .catch(error => showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`))
+                .catch(error => {
+                    showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`);
+                    setIsLoading(false);
+                })
         }
-    }, [axios, showNotification]);
-
-
-    const getBookmarks = useEffect(() => {
-
-    }, [axios, showNotification]);
+    }, [axios, showNotification,isBookmark,setIsLoading]);
 
 
     const addBookmark = useCallback((id: number, mediaType: string) => {
@@ -136,7 +137,7 @@ export function MediaPage(props: RouteProps): JSX.Element {
     return (
         <PageContainer title={title}>
             <ToastContainer/>
-            <Visible if={!isLoggedIn}>
+            <Visible if={!isLoggedIn && isBookmark}>
                 <p className="informationText">
                     Registrierte Nutzer können Medien aus den Ergebnissen
                     ihrer Suchen zu ihrer Merkliste hinzufügen und sich hier
@@ -144,7 +145,7 @@ export function MediaPage(props: RouteProps): JSX.Element {
                     bitte oben rechts.
                 </p>
             </Visible>
-            <Visible if={isLoggedIn}>
+            <Visible if={isLoggedIn || !isBookmark}>
                 <Visible if={isLoading}>
                     <p className="loading">
                         lädt Ergebnisse...
