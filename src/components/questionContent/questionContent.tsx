@@ -13,7 +13,7 @@ export function QuestionContent(props: QuestionContentProps) {
     const {question: {id, type, text, choices}, answer, updateAnswer} = props;
 
     const getIsChecked = useCallback((a: number) => {
-        return answer?.choices.includes(a)
+        return answer?.selectedChoices.includes(a)
     }, [answer]);
 
     const singleSelectComponent = useMemo(() => {
@@ -57,7 +57,6 @@ export function QuestionContent(props: QuestionContentProps) {
             case "MULTIPLE_CHOICE":
                 return multiSelectComponent
             default:
-                console.log(type)
                 return null
         }
     }, [type, singleSelectComponent, multiSelectComponent]);

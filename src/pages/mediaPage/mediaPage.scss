@@ -1,0 +1,15 @@
+@import "../../styles/_globals";
+
+
+.informationText {
+    text-align: justify;
+}
+
+.loading {
+    margin-top: $big;
+}
+
+.noResults {
+    margin-top: $big;
+    color: $grey;
+}

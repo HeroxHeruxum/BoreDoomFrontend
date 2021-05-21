@@ -1,11 +1,11 @@
 interface VisibleProps {
     if: boolean,
-    children: JSX.Element
+    children: JSX.Element | JSX.Element[]
 }
 
 export function Visible(props: VisibleProps) {
     if (props.if) {
-        return props.children
+        return <div>{props.children}</div>
     } else {
         return null
     }

@@ -1,21 +1,21 @@
 import {MouseEvent} from "react";
 
-type Choices ={
+
+type Choice = {
     id: number,
-    value: string,
+    value: string
 }
 
 export type Question = {
     id: number,
     type: string,
     text: string,
-    choices: Array<Choices>
+    choices: Array<Choice>
 }
-
 
 export type Answer = {
     questionId: number,
-    choices: Array<number>
+    selectedChoices: Array<number>
 }
 
 export type Media = {
@@ -36,17 +36,8 @@ export type ButtonProps = {
     href?: string,
     onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
 }
-
-export type ResultComponentProps = {
-    imgUrl: string,
-    producerUrl: string,
-    title: string,
-    genre: string
-    functionalButton: JSX.Element
-}
-
-export type LoginContainerProps = {
-    isRegister: boolean
+export type LoginContainerProps ={
+    isRegister:boolean
 }
 
 export type AnswerState ={
