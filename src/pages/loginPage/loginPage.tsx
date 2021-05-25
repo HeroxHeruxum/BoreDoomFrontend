@@ -1,14 +1,17 @@
-import { RouteProps } from 'react-router';
-import { PageContainer } from '../pageContainer/pageContainer';
-import { LoginContainer } from '../../components/loginContainer/loginContainer';
+import React, {useMemo} from "react";
+import {RouteProps} from "react-router";
+import {PageContainer} from "../pageContainer/pageContainer";
+import {Login} from "../../components/login/login";
 
 
 export function LoginPage(props: RouteProps) {
-    const register = !!props.location?.pathname.includes("register");
+    const register = useMemo(() => {
+        return !!props.location?.pathname.includes("register")
+    }, [props]);
 
     return (
         <PageContainer>
-            <LoginContainer isRegister={register}/>
+            <Login isRegister={register}/>
         </PageContainer>
     );
 }

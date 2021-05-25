@@ -1,19 +1,27 @@
-import React, {useCallback, useMemo, useState} from "react";
-import "./loginContainer.scss";
-import {Visible} from "../visible/visible";
-import {Button} from "../button/button";
-import axios from "axios";
+import React, {useCallback, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import "./login.scss";
+import axios from "axios";
+import {ReducerState} from "../../reducer";
+import {setConfirmPassword, setEmail, setLoggedInUsername, setPassword, setUsername} from "./loginActions";
+import {changeLocation} from "../button/buttonActions";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {LoginContainerProps} from "../../misc/types";
+import {Visible} from "../visible/visible";
+import {Button} from "../button/button";
 
 
-export function LoginContainer(props: LoginContainerProps) {
+interface LoginProps {
+    isRegister: boolean
+}
+
+export function Login(props: LoginProps) {
+    const {isRegister} = props;
 
     const showNotification = useCallback((message: string) => {
         toast.error(message)
-    }, [toast]);
+    }, []);
 
     /**
      * Here we set up the sate of  this component. There is the possibility to use a global state with an library
@@ -21,14 +29,15 @@ export function LoginContainer(props: LoginContainerProps) {
      * Its also often smoother and  more readable when we use the local state with a HOC and LOC structure.
      */
 
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-
-    const {isRegister} = props;
-
+    const {username, email, password, confirmPassword} = useSelector((state: ReducerState) => ({
+        username: state.login.username,
+        email: state.login.email,
+        password: state.login.password,
+        confirmPassword: state.login.confirmPassword
+    }));
+    const dispatch = useDispatch();
     const history = useHistory();
+
     const loginHeader = useMemo(() => {
         return isRegister ? "Registrierung" : "Anmeldung";
     }, [isRegister]);
@@ -45,16 +54,17 @@ export function LoginContainer(props: LoginContainerProps) {
      * react-toastify library.
      */
 
-    const onClickButton = () => {
+    const onClickButton = useCallback(() => {
         if (isRegister) {
-            if ((email === "") || (password === "") || (username === "")) {
-                showNotification("nicht alle Felder ausgefüllt")
+            if ((username === "") || (email === "") || (password === "")) {
+                showNotification("Nicht alle Felder ausgefüllt")
             } else if (password !== confirmPassword) {
-                showNotification("Passwörter ungleich")
+                showNotification("Passwörter stimmen nicht überein")
             } else {
-                axios.post("http://localhost:8082/register", {username: username, email: email, password: password})
+                axios.post("http://localhost:8082/register", {username, email: email, password: password})
                     .then(() => {
-                            history.push("/login")
+                            history.push("/login");
+                            dispatch(changeLocation("/"))
                         }
                     )
                     .catch((e) => {
@@ -63,18 +73,21 @@ export function LoginContainer(props: LoginContainerProps) {
             }
         } else {
             if ((username === "") || (password === "")) {
-                showNotification("nicht alle Felder ausgefüllt")
+                showNotification("Nicht alle Felder ausgefüllt")
             } else {
-                axios.post("http://localhost:8082/login", {username: username, password: password})
+                axios.post("http://localhost:8082/login", {username, password})
                     .then(() => {
-                        history.push("/")
+                        dispatch(setLoggedInUsername(username));
+                        history.push("/");
+                        dispatch(changeLocation("/"))
                     })
                     .catch((e) => {
+                        console.log("error", e)
                         showNotification(e.response.data)
                     })
             }
         }
-    }
+    }, [isRegister, username, email, password, confirmPassword, showNotification, dispatch, history]);
 
     /**
      * This component makes use of the React component <Visible/> this component enables
@@ -83,7 +96,7 @@ export function LoginContainer(props: LoginContainerProps) {
      */
 
     return (
-        <div className="loginContainer">
+        <div className="login">
             <div className="loginHeader">
                 {loginHeader}
             </div>
@@ -92,37 +105,33 @@ export function LoginContainer(props: LoginContainerProps) {
                     Benutzername
                 </div>
                 <input className="loginInput" type="text"
-                       autoFocus={true} onChange={(e) => {
-                    setUsername(e.target.value)
-                }}/>
+                       value={username} autoFocus={true}
+                       onChange={e => dispatch(setUsername(e.target.value))}/>
             </div>
             <Visible if={isRegister}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         E-Mail-Adresse
                     </div>
-                    <input className="loginInput" type="email"
-                           onChange={(e) => {
-                        setEmail(e.target.value)
-                    }}/>
+                    <input className="loginInput" type="email" value={email}
+                           onChange={e => dispatch(setEmail(e.target.value))}/>
                 </div>
             </Visible>
             <div className="loginInputWrapper">
                 <div className="loginInputHeader">
                     Passwort
                 </div>
-                <input className="loginInput" type="password" onChange={(e) => {
-                    setPassword(e.target.value)
-                }}/>
+                <input className="loginInput" type="password" value={password}
+                       onChange={e => dispatch(setPassword(e.target.value))}/>
             </div>
             <Visible if={isRegister}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         Passwort bestätigen
                     </div>
-                    <input className="loginInput" type="password" onChange={(e) => {
-                        setConfirmPassword(e.target.value)
-                    }}/>
+                    <input className="loginInput" type="password"
+                           value={confirmPassword}
+                           onChange={e => dispatch(setConfirmPassword(e.target.value))}/>
                 </div>
             </Visible>
             <ToastContainer/>
@@ -130,14 +139,16 @@ export function LoginContainer(props: LoginContainerProps) {
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
                 <Visible if={!isRegister}>
-                    <a className="registerLink" href="/register">
-                        Registrieren
-                    </a>
+                    <div className="registerLink">
+                        <Button type="link" title="Registrieren"
+                                href="/register"/>
+                    </div>
                 </Visible>
                 <Visible if={isRegister}>
-                    <a className="registerLink" href="/login">
-                        Zurück zum Login
-                    </a>
+                    <div className="registerLink">
+                        <Button type="link" title="Zurück zum Login"
+                                href="/login"/>
+                    </div>
                 </Visible>
             </div>
         </div>

@@ -1,13 +1,10 @@
 import React from "react";
-import {useHistory} from "react-router-dom";
 import "./mainPage.scss";
 import {PageContainer} from "../pageContainer/pageContainer";
 import {Button} from "../../components/button/button";
 
 
 export function MainPage() {
-    const history = useHistory();
-
     return (
         <PageContainer title="Was ist BoreDoom?">
             <p className="mainPageDescription">
@@ -31,8 +28,7 @@ export function MainPage() {
                 zugeschnittene Auswahl an Medien.
             </p>
             <div className="startButtonWrapper">
-                <Button type="standard" title="Start"
-                    onClick={() => history.push("/questions")}/>
+                <Button type="standard" title="Start" href="/questions"/>
             </div>
         </PageContainer> 
     );

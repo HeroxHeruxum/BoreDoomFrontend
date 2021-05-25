@@ -5,11 +5,10 @@
     text-align: justify;
 }
 
-.loading {
+.loading, .noResults {
     margin-top: $big;
 }
 
-.noResults {
-    margin-top: $big;
-    color: $grey;
+.emptyElement {
+    text-align: justify;
 }

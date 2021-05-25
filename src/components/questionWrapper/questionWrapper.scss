@@ -1,16 +1,11 @@
 @import "../../styles/_globals";
 
 
-.loading {
+.loading, .noResults {
   margin-top: $big;
 }
 
-.noResults {
-    margin-top: $big;
-    color: $grey;
-}
-
-.questionContainer {
+.questionWrapper {
   display: flex;
   flex-direction: column;
   margin: auto 0;

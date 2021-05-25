@@ -1,21 +1,37 @@
-import React, { useCallback, useMemo } from "react";
+import React, {MouseEvent, useCallback} from "react";
+import {useDispatch} from "react-redux";
+import {useHistory} from "react-router";
 import "./button.scss";
-import {ButtonProps} from "../../misc/types";
+import {ButtonType} from "../../misc/types";
+import {changeLocation} from "./buttonActions";
 
+
+interface ButtonProps {
+    type: ButtonType,
+    disabled?: boolean,
+    title: string | JSX.Element,
+    href?: string,
+    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
+}
 
 export function Button(props: ButtonProps) {
-    const {type, disabled, title, href, onClick} = props;
+    const {type, disabled, title, href: location, onClick} = props;
+    const dispatch = useDispatch();
+    const history = useHistory();
 
-    const actualHref = useMemo(() => {
-        return !disabled ? href : undefined
-    }, [disabled, href]);
-    const actualOnClick = useCallback((event) => {
-        return !disabled && onClick?.(event)
-    }, [disabled, onClick]);
+    const onClickFn = useCallback((event) => {
+        if (!disabled) {
+            if (location) {
+                history.push(location);
+                dispatch(changeLocation(location))
+            }
+            onClick?.(event)
+        }
+    }, [disabled, location, onClick, dispatch, history]);
 
     return (
         <a className={`button ${type}Button ${disabled ? "disabled" : ""}`}
-           href={actualHref} onClick={actualOnClick}>
+           onClick={onClickFn}>
             {title}
         </a>
     )

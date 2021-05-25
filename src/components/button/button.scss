@@ -40,6 +40,22 @@
         }
     }
 
+    &.logoButton {
+        margin-right: $big;
+        font-size: $fontSizeLogo;
+        text-decoration: none;
+        color: $white;
+        cursor: pointer;
+
+        &:focus {
+            outline-color: $white;
+        }
+
+        &:hover, &:active {
+            background-color: $darkBlue;
+        }
+    }
+
     &.headerButton {
         padding: $small;
 

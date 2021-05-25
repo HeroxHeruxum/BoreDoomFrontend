@@ -1,12 +1,12 @@
 import React, {useMemo} from "react";
 import "./mediaTypeElement.scss";
-import {Media} from "../../misc/types";
+import {MediaObject} from "../../misc/types";
 import {MediaElement} from "../mediaElement/mediaElement";
 
 
 interface MediaTypeElementProps {
     title: string,
-    media: Media[],
+    media: MediaObject[],
     isBookmark: boolean,
     toggleIsBookmark: (id: number, mediaType: string) => void
 }

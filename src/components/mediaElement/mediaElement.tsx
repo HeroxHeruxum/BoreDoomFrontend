@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from "react";
+import {useHistory} from "react-router";
 import "./mediaElement.scss";
-import {Media} from "../../misc/types";
+import {MediaObject} from "../../misc/types";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -8,7 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 
-interface MediaElementProps extends Media {
+interface MediaElementProps extends MediaObject {
     isBookmark: boolean,
     toggleIsBookmark: (id: number, mediaType: string) => void
 }
@@ -24,6 +25,8 @@ export function MediaElement(props: MediaElementProps) {
         isBookmark,
         toggleIsBookmark
     } = props;
+
+    const history = useHistory();
 
     const bookmarkIconTitle = useMemo(() => {
         return isBookmark ? "Aus Merkliste entfernen" : "Zur Merkliste hinzufügen"
@@ -43,7 +46,8 @@ export function MediaElement(props: MediaElementProps) {
                     {description}
                 </div>
                 <div className="linkButtonWrapper">
-                    <Button type="link" title="Zum Hersteller" href={producerUrl}/>
+                    <Button type="link" title="Zum Hersteller"
+                            onClick={() => history.push(producerUrl)}/>
                 </div>
             </div>
             <div className="bookmarkIconWrapper">
