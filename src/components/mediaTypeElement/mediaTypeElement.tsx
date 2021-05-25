@@ -7,19 +7,22 @@ import {MediaElement} from "../mediaElement/mediaElement";
 interface MediaTypeElementProps {
     title: string,
     media: MediaObject[],
-    isBookmark: boolean,
+    isBookmarkView: boolean,
+    bookmarkIds: number[],
     toggleIsBookmark: (id: number, mediaType: string) => void
 }
 
 export function MediaTypeElement(props: MediaTypeElementProps) {
-    const {title, media, isBookmark, toggleIsBookmark} = props;
+    const {title, media, isBookmarkView, bookmarkIds, toggleIsBookmark} = props;
 
     const mediaElements = useMemo(() => {
         return media.map(medium => {
-            return <MediaElement {...medium} isBookmark={isBookmark}
-                                  toggleIsBookmark={toggleIsBookmark}/>
+            const isBookmark = bookmarkIds.includes(medium.id);
+            return <MediaElement {...medium} isBookmarkView={isBookmarkView}
+                                 isBookmark={isBookmark}
+                                 toggleIsBookmark={toggleIsBookmark}/>
         })
-    }, [media, isBookmark, toggleIsBookmark]);
+    }, [media, isBookmarkView, bookmarkIds, toggleIsBookmark]);
 
 
     return (

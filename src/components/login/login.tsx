@@ -12,11 +12,11 @@ import {Button} from "../button/button";
 
 
 interface LoginProps {
-    isRegister: boolean
+    isRegisterView: boolean
 }
 
 export function Login(props: LoginProps) {
-    const {isRegister} = props;
+    const {isRegisterView} = props;
 
     /**
      * Here we set up the sate of  this component. There is the possibility to use a global state with an library
@@ -34,12 +34,12 @@ export function Login(props: LoginProps) {
     const history = useHistory();
 
     const loginHeader = useMemo(() => {
-        return isRegister ? "Registrierung" : "Anmeldung";
-    }, [isRegister]);
+        return isRegisterView ? "Registrierung" : "Anmeldung";
+    }, [isRegisterView]);
 
     const buttonTitle = useMemo(() => {
-        return isRegister ? "Registrieren" : "Anmelden";
-    }, [isRegister]);
+        return isRegisterView ? "Registrieren" : "Anmelden";
+    }, [isRegisterView]);
 
 
     /**
@@ -50,7 +50,7 @@ export function Login(props: LoginProps) {
      */
 
     const onClickButton = useCallback(() => {
-        if (isRegister) {
+        if (isRegisterView) {
             if ((username === "") || (email === "") || (password === "")) {
                 showNotification("message", "Felder sind nicht alle ausgefüllt.")
             } else if (password !== confirmPassword) {
@@ -94,12 +94,12 @@ export function Login(props: LoginProps) {
                     })
             }
         }
-    }, [isRegister, username, email, password, confirmPassword, dispatch, history]);
+    }, [isRegisterView, username, email, password, confirmPassword, dispatch, history]);
 
     /**
      * This component makes use of the React component <Visible/> this component enables
      * to control the visibility of its children props. This way you can reduce duplicated code and
-     * places where u might end up to adjust things in case of a change; We Control this with the isRegister prop
+     * places where u might end up to adjust things in case of a change; We Control this with the isRegisterView prop
      */
 
     return (
@@ -115,7 +115,7 @@ export function Login(props: LoginProps) {
                        value={username} autoFocus={true}
                        onChange={e => dispatch(setUsername(e.target.value))}/>
             </div>
-            <Visible if={isRegister}>
+            <Visible if={isRegisterView}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         E-Mail-Adresse
@@ -131,7 +131,7 @@ export function Login(props: LoginProps) {
                 <input className="loginInput" type="password" value={password}
                        onChange={e => dispatch(setPassword(e.target.value))}/>
             </div>
-            <Visible if={isRegister}>
+            <Visible if={isRegisterView}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         Passwort bestätigen
@@ -144,13 +144,13 @@ export function Login(props: LoginProps) {
             <div className="loginButtonWrapper">
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
-                <Visible if={!isRegister}>
+                <Visible if={!isRegisterView}>
                     <div className="registerLink">
                         <Button type="link" title="Registrieren"
                                 href="/register"/>
                     </div>
                 </Visible>
-                <Visible if={isRegister}>
+                <Visible if={isRegisterView}>
                     <div className="registerLink">
                         <Button type="link" title="Zurück zum Login"
                                 href="/login"/>
