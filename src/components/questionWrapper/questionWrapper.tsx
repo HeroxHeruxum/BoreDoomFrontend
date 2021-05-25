@@ -1,18 +1,16 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import "./questionWrapper.scss";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {Question, QuestionType} from "../../misc/types";
 import {ReducerState} from "../../reducer";
 import {updateAnswer} from "./questionWrapperActions";
+import {showNotification} from "../notification/notificationActions";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import {Button} from "../button/button";
 import {QuestionContent} from "../questionContent/questionContent";
 import {Visible} from "../visible/visible";
-import { useHistory } from "react-router";
 
 
 export function QuestionWrapper() {
@@ -33,10 +31,6 @@ export function QuestionWrapper() {
         return [mockQuestion, {...mockQuestion, id: 2}, {...mockQuestion, id: 3, type: "MULTIPLE_CHOICE"}]
     }, []);
 
-    const showNotification = useCallback((message: string) => {
-        toast.error(message)
-    }, []);
-
     useEffect(() => {
         //setFetchedData(mockData)
         setIsLoading(true);
@@ -45,11 +39,11 @@ export function QuestionWrapper() {
                 setIsLoading(false);
                 setFetchedData(response.data)
             })
-            .catch(error => {
+            .catch(() => {
                 setIsLoading(false);
-                showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`)
+                showNotification("activity", "Beschaffen der Daten")
             });
-    }, [setIsLoading, setFetchedData, showNotification]);
+    }, [setIsLoading, setFetchedData]);
 
     const numberOfQuestions = useMemo(() => fetchedData.length, [fetchedData]);
     const [questionIndex, setQuestionIndex] = useState(0);
@@ -96,10 +90,8 @@ export function QuestionWrapper() {
         return `${(questionIndex + 1) / numberOfQuestions * 100}%`
     }, [questionIndex, numberOfQuestions]);
 
-    const history = useHistory();
     return (
         <div>
-            <ToastContainer/>
             <Visible if={isLoading}>
                 <p className="loading">
                     lädt Fragen...

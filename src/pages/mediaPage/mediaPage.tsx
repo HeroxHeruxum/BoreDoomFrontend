@@ -1,6 +1,5 @@
 import React, {useMemo} from "react";
 import {RouteProps} from "react-router";
-import {ToastContainer} from "react-toastify";
 import {PageContainer} from "../pageContainer/pageContainer";
 import {Media} from "../../components/media/media";
 
@@ -15,7 +14,6 @@ export function MediaPage(props: RouteProps): JSX.Element {
 
     return (
         <PageContainer title={title}>
-            <ToastContainer/>
             <Media isBookmark={isBookmark}/>
         </PageContainer>
     )

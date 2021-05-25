@@ -5,9 +5,8 @@ import "./login.scss";
 import axios from "axios";
 import {ReducerState} from "../../reducer";
 import {setConfirmPassword, setEmail, setLoggedInUsername, setPassword, setUsername} from "./loginActions";
+import {showNotification} from "../notification/notificationActions";
 import {changeLocation} from "../button/buttonActions";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 
@@ -18,10 +17,6 @@ interface LoginProps {
 
 export function Login(props: LoginProps) {
     const {isRegister} = props;
-
-    const showNotification = useCallback((message: string) => {
-        toast.error(message)
-    }, []);
 
     /**
      * Here we set up the sate of  this component. There is the possibility to use a global state with an library
@@ -57,9 +52,9 @@ export function Login(props: LoginProps) {
     const onClickButton = useCallback(() => {
         if (isRegister) {
             if ((username === "") || (email === "") || (password === "")) {
-                showNotification("Nicht alle Felder ausgefüllt")
+                showNotification("message", "Felder sind nicht alle ausgefüllt.")
             } else if (password !== confirmPassword) {
-                showNotification("Passwörter stimmen nicht überein")
+                showNotification("message", "Passwörter stimmen nicht überein.")
             } else {
                 axios.post("http://localhost:8082/register", {username, email: email, password: password})
                     .then(() => {
@@ -67,13 +62,19 @@ export function Login(props: LoginProps) {
                             dispatch(changeLocation("/"))
                         }
                     )
-                    .catch((e) => {
-                        showNotification(e.response.data)
+                    .catch(error => {
+                        const errorMessage = error.response?.data;
+                        const existingUser = errorMessage === "User already exists";
+                        if (existingUser) {
+                            showNotification("message", "Benutzername ist bereits vergeben.")
+                        } else {
+                            showNotification("activity", "Registrieren")
+                        }
                     })
             }
         } else {
             if ((username === "") || (password === "")) {
-                showNotification("Nicht alle Felder ausgefüllt")
+                showNotification("message", "Felder sind nicht alle ausgefüllt.")
             } else {
                 axios.post("http://localhost:8082/login", {username, password})
                     .then(() => {
@@ -81,13 +82,19 @@ export function Login(props: LoginProps) {
                         history.push("/");
                         dispatch(changeLocation("/"))
                     })
-                    .catch((e) => {
-                        console.log("error", e)
-                        showNotification(e.response.data)
+                    .catch(error => {
+                        const errorMessage = error.response?.data;
+                        const wrongUser = errorMessage === "Username does not exist";
+                        const wrongPassword = errorMessage === "Invalid password";
+                        if (wrongUser || wrongPassword) {
+                            showNotification("message", "Benutzername oder Passwort ist falsch.")
+                        } else {
+                            showNotification("activity", "Anmelden")
+                        }
                     })
             }
         }
-    }, [isRegister, username, email, password, confirmPassword, showNotification, dispatch, history]);
+    }, [isRegister, username, email, password, confirmPassword, dispatch, history]);
 
     /**
      * This component makes use of the React component <Visible/> this component enables
@@ -134,7 +141,6 @@ export function Login(props: LoginProps) {
                            onChange={e => dispatch(setConfirmPassword(e.target.value))}/>
                 </div>
             </Visible>
-            <ToastContainer/>
             <div className="loginButtonWrapper">
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>

@@ -4,8 +4,7 @@ import "./media.scss";
 import axios from "axios";
 import {MediaObject} from "../../misc/types";
 import {ReducerState} from "../../reducer";
-import {toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {showNotification} from "../notification/notificationActions";
 import {Visible} from "../visible/visible";
 import {MediaTypeElement} from "../mediaTypeElement/mediaTypeElement";
 
@@ -37,10 +36,6 @@ export function Media(props: MediaProps) {
         return [{...mockMedia, mediaType: "MOVIE"}, mockMedia, mockMedia, mockMedia, mockMedia]
     }, []);
 
-    const showNotification = useCallback((message: string) => {
-        toast.error(message)
-    }, []);
-
     useEffect(() => {
         //setFetchedData(mockData)
         if (isBookmark && isLoggedIn) {
@@ -50,9 +45,9 @@ export function Media(props: MediaProps) {
                     setIsLoading(false);
                     setFetchedData(response.data)
                 })
-                .catch(error => {
+                .catch(() => {
                     setIsLoading(false);
-                    showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`)
+                    showNotification("activity", "Beschaffen der Daten")
                 })
         } else if (!isBookmark) {
             setIsLoading(true);
@@ -61,25 +56,25 @@ export function Media(props: MediaProps) {
                     setIsLoading(false);
                     setFetchedData(response.data)
                 })
-                .catch(error => {
+                .catch(() => {
                     setIsLoading(false);
-                    showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`)
+                    showNotification("activity", "Beschaffen der Daten")
                 })
         }
-    }, [isBookmark, isLoggedIn, answers, setIsLoading, showNotification]);
+    }, [isBookmark, isLoggedIn, answers, setIsLoading]);
 
 
     const addBookmark = useCallback((id: number, mediaType: string) => {
         axios.put(`http://localhost:8082/user/favorites/saveMedia?mediaId=${id}&mediaType=${mediaType}`)
             .then()
-            .catch(error => showNotification(`Fehler bei der Datenbeschaffung: ${error.toString()}`))
-    }, [showNotification]);
+            .catch(() => showNotification("activity", "Hinzufügen zur Merkliste"))
+    }, []);
 
     const deleteBookmark = useCallback((id: number, mediaType: string) => {
         axios.put(`http://localhost:8082/user/favorites/deleteMedia?mediaId=${id}&mediaType=${mediaType}`)
             .then()
-            .catch(error => showNotification(`Fehler beim löschen: ${error.toString()}`))
-    }, [showNotification]);
+            .catch(() => showNotification("activity", "Entfernen von der Merkliste"))
+    }, []);
 
     const toggleIsBookmark = useMemo(() => {
         return isBookmark ? deleteBookmark : addBookmark

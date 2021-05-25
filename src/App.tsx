@@ -1,5 +1,6 @@
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
+import {Notification} from "./components/notification/notification";
 import {MainPage} from "./pages/mainPage/mainPage";
 import {QuestionPage} from "./pages/questionPage/questionPage";
 import {MediaPage} from "./pages/mediaPage/mediaPage";
@@ -10,6 +11,7 @@ import {ImprintPage} from "./pages/imprintPage/imprintPage";
 function App() {
     return (
         <BrowserRouter>
+            <Notification/>
             <Switch>
                 <Route exact path={"/"} render={() => <MainPage/>}/>
                 <Route exact path={"/questions"} render={()=> <QuestionPage/>}/>

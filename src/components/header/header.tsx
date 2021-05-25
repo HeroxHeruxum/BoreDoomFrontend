@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import "./header.scss";
 import axios from "axios";
 import {ReducerState} from "../../reducer";
+import {showNotification} from "../notification/notificationActions";
 import {setLoggedInUsername} from "../login/loginActions";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
@@ -29,7 +30,9 @@ export function Header() {
     const logout = useCallback(() => {
         axios.get<[]>("http://localhost:8082/logout")
             .then(() => dispatch(setLoggedInUsername("")))
-            .catch(error => console.log(error))
+            .catch(() => {
+                showNotification("activity", "Abmelden")
+            })
     }, [dispatch]);
 
     return (
