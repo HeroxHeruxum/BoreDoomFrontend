@@ -14,21 +14,14 @@
     .headerLeft {
         display: flex;
         align-items: center;
-
-        .headerLogoLink {
-            margin-right: $big;
-            font-size: $fontSizeLogo;
-            text-decoration: none;
-            color: $white;
-            cursor: pointer;
-
-            &:focus {
-                outline: dotted 1px $white;
-            }
-        }
     }
 
     .headerRight {
         display: flex;
+
+        .headerUser {
+            margin-right: $small;;
+            color: $white;
+        }
     }
 }

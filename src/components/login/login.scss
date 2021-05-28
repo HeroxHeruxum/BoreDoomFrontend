@@ -1,7 +1,7 @@
 @import "../../styles/_globals.scss";
 
 
-.loginContainer {
+.login {
     display: flex;
     flex-direction: column;
     width: 400px;
@@ -46,23 +46,7 @@
         align-items: center;
 
         .registerLink {
-            width: max-content;
-            margin: -$small;
             margin-top: $small;
-            padding: $small;
-            text-align: center;
-            font-size: $fontSizeSmall;
-            color: $darkBlue;
-            text-decoration: underline;
-            cursor: pointer;
-
-            &:hover {
-                color: $darkBlueHover;
-            }
-        
-            &:active {
-                color: $darkBlueActive;
-            }
         }
     }
 }

@@ -1,10 +1,11 @@
-import {MouseEvent} from "react";
-
-
-type Choice = {
-    id: number,
-    value: string
+export type ActionType = {
+    type: string,
+    payload: any
 }
+
+export type ButtonType = "standard" | "logo" | "header" | "link";
+
+export type QuestionType = "SINGLE_CHOICE" | "MULTIPLE_CHOICE";
 
 export type Question = {
     id: number,
@@ -13,12 +14,17 @@ export type Question = {
     choices: Array<Choice>
 }
 
+type Choice = {
+    id: number,
+    value: string
+}
+
 export type Answer = {
     questionId: number,
     choices: Array<number>
 }
 
-export type Media = {
+export type MediaObject = {
     id: number,
     mediaType: string,
     imageUrl: string,
@@ -26,26 +32,3 @@ export type Media = {
     description: string,
     producerUrl: string
 }
-
-export type ButtonType = "standard" | "header" | "link";
-
-export type ButtonProps = {
-    type: ButtonType,
-    disabled?: boolean,
-    title: string | JSX.Element,
-    href?: string,
-    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
-}
-export type LoginContainerProps ={
-    isRegister:boolean
-}
-
-export type AnswerState ={
-    answers: Answer[]
-}
-export type AnswerAction ={
-    type: string
-    answers: Answer[]
-}
-
-export type DispatchType = (args: AnswerAction) => AnswerAction
