@@ -2,11 +2,15 @@ import React, {useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import "./login.scss";
-import axios from "axios";
 import {State} from "../../reducer";
-import {setConfirmPassword, setEmail, setLoggedInUsername, setPassword, setUsername} from "./loginActions";
-import {showNotification} from "../notification/notificationActions";
-import {changeLocation} from "../button/buttonActions";
+import {
+    loginUser,
+    registerUser,
+    setConfirmPassword,
+    setEmail,
+    setPassword,
+    setUsername
+} from "./loginActions";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 
@@ -51,50 +55,11 @@ export function Login(props: LoginProps) {
 
     const onClickButton = useCallback(() => {
         if (isRegisterView) {
-            if ((username === "") || (email === "") || (password === "")) {
-                showNotification("message", "Felder sind nicht alle ausgefüllt.")
-            } else if (password !== confirmPassword) {
-                showNotification("message", "Passwörter stimmen nicht überein.")
-            } else {
-                axios.post("http://localhost:8082/register", {username, email: email, password: password})
-                    .then(() => {
-                            history.push("/login");
-                            dispatch(changeLocation("/"))
-                        }
-                    )
-                    .catch(error => {
-                        const errorMessage = error.response?.data;
-                        const existingUser = errorMessage === "User already exists";
-                        if (existingUser) {
-                            showNotification("message", "Benutzername ist bereits vergeben.")
-                        } else {
-                            showNotification("activity", "Registrieren")
-                        }
-                    })
-            }
+            dispatch(registerUser(history))
         } else {
-            if ((username === "") || (password === "")) {
-                showNotification("message", "Felder sind nicht alle ausgefüllt.")
-            } else {
-                axios.post("http://localhost:8082/login", {username, password})
-                    .then(() => {
-                        dispatch(setLoggedInUsername(username));
-                        history.push("/");
-                        dispatch(changeLocation("/"))
-                    })
-                    .catch(error => {
-                        const errorMessage = error.response?.data;
-                        const wrongUser = errorMessage === "Username does not exist";
-                        const wrongPassword = errorMessage === "Invalid password";
-                        if (wrongUser || wrongPassword) {
-                            showNotification("message", "Benutzername oder Passwort ist falsch.")
-                        } else {
-                            showNotification("activity", "Anmelden")
-                        }
-                    })
-            }
+            dispatch(loginUser(history))
         }
-    }, [isRegisterView, username, email, password, confirmPassword, dispatch, history]);
+    }, [isRegisterView, dispatch, history]);
 
     /**
      * This component makes use of the React component <Visible/> this component enables
