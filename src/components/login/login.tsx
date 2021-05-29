@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import "./login.scss";
 import axios from "axios";
-import {ReducerState} from "../../reducer";
+import {State} from "../../reducer";
 import {setConfirmPassword, setEmail, setLoggedInUsername, setPassword, setUsername} from "./loginActions";
 import {showNotification} from "../notification/notificationActions";
 import {changeLocation} from "../button/buttonActions";
@@ -24,7 +24,7 @@ export function Login(props: LoginProps) {
      * Its also often smoother and  more readable when we use the local state with a HOC and LOC structure.
      */
 
-    const {username, email, password, confirmPassword} = useSelector((state: ReducerState) => ({
+    const {username, email, password, confirmPassword} = useSelector((state: State) => ({
         username: state.login.username,
         email: state.login.email,
         password: state.login.password,

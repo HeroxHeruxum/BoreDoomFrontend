@@ -1,10 +1,9 @@
-import React, {useEffect, useCallback, useMemo, useState} from "react";
-import {useSelector} from "react-redux";
+import React, {useEffect, useCallback, useMemo} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import "./media.scss";
-import axios from "axios";
 import {MediaObject} from "../../misc/types";
-import {ReducerState} from "../../reducer";
-import {showNotification} from "../notification/notificationActions";
+import {State} from "../../reducer";
+import {fetchBookmarks, fetchResults, toggleIsBookmark} from "./mediaActions";
 import {Visible} from "../visible/visible";
 import {MediaTypeElement} from "../mediaTypeElement/mediaTypeElement";
 
@@ -15,90 +14,21 @@ interface MediaProps {
 
 export function Media(props: MediaProps) {
     const {isBookmarkView} = props;
-
-    const {isLoggedIn, answers} = useSelector((state: ReducerState) => ({
+    const {isLoggedIn, isLoading, media, bookmarkIds} = useSelector((state: State) => ({
         isLoggedIn: !!state.login.loggedInUsername,
-        answers: state.questions.answers
+        isLoading: state.media.isLoading,
+        media: state.media.media,
+        bookmarkIds: state.media.bookmarkIds
     }));
-
-    const [isLoading, setIsLoading] = useState(false);
-    const [fetchedData, setFetchedData] = useState<MediaObject[]>([]);
-    const [bookmarkIds, setBookmarkIds] = useState<number[]>([]);
-    
-    const mockData = useMemo(() => {
-        const mockMedia: MediaObject = {
-            id: 1,
-            mediaType: "BOOK",
-            imageUrl: "https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350",
-            name: "Ein Unfassbar langer Titel damit ich den overflow testen kann und keine dumme URL verwenden muss",
-            description: "Katzig",
-            producerUrl: "https://www.youtube.com/watch?v=QoLUB0QkUaE"
-        };
-        return [{...mockMedia, mediaType: "MOVIE"}, {...mockMedia, id: 2}, {...mockMedia, id: 3}, {...mockMedia, id: 4}]
-    }, []);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        //setFetchedData(mockData)
-        //setBookmarkIds([1, 2])
         if (isBookmarkView && isLoggedIn) {
-            setIsLoading(true);
-            axios.get(`http://localhost:8082/user/favorites/`)
-                .then((response) => {
-                    setIsLoading(false);
-                    setFetchedData(response.data);
-                    setBookmarkIds(response.data.map((media: MediaObject) => media.id))
-                })
-                .catch(() => {
-                    setIsLoading(false);
-                    showNotification("activity", "Beschaffen der Daten")
-                })
+            fetchBookmarks()
         } else if (!isBookmarkView) {
-            setIsLoading(true);
-            let firstPostReady = false;
-            axios.post(`http://localhost:8082/getResults`, answers)
-                .then((response) => {
-                    firstPostReady ? setIsLoading(false) : firstPostReady = true;
-                    setFetchedData(response.data)
-                })
-                .catch(() => {
-                    firstPostReady ? setIsLoading(false) : firstPostReady = true;
-                    showNotification("activity", "Beschaffen der Daten")
-                });
-            axios.get(`http://localhost:8082/user/favorites/`)
-                .then((response) => {
-                    firstPostReady ? setIsLoading(false) : firstPostReady = true;
-                    setBookmarkIds(response.data.map((media: MediaObject) => media.id))
-                })
-                .catch(() => {
-                    firstPostReady ? setIsLoading(false) : firstPostReady = true;
-                    showNotification("activity", "Beschaffen der Daten")
-                });
+            dispatch(fetchResults())
         }
-    }, [isBookmarkView, isLoggedIn, answers, setIsLoading, setFetchedData, setBookmarkIds]);
-
-
-    const addBookmark = useCallback((id: number, mediaType: string) => {
-        axios.put(`http://localhost:8082/user/favorites/saveMedia?mediaId=${id}&mediaType=${mediaType}`)
-            .then(() => {
-                const updatedBookmarkIds = [...bookmarkIds, id];
-                setBookmarkIds(updatedBookmarkIds)
-            })
-            .catch(() => showNotification("activity", "Hinzufügen zur Merkliste"))
-    }, [bookmarkIds, setBookmarkIds]);
-
-    const deleteBookmark = useCallback((id: number, mediaType: string) => {
-        axios.put(`http://localhost:8082/user/favorites/deleteMedia?mediaId=${id}&mediaType=${mediaType}`)
-            .then(() => {
-                const updatedBookmarkIds = bookmarkIds.filter(bookmarkId => bookmarkId !== id);
-                setBookmarkIds(updatedBookmarkIds)
-            })
-            .catch(() => showNotification("activity", "Entfernen von der Merkliste"))
-    }, [bookmarkIds, setBookmarkIds]);
-
-    const toggleIsBookmark = useCallback((id: number, mediaType: string) => {
-        const isBookmark = bookmarkIds.includes(id);
-        return isBookmark ? deleteBookmark(id, mediaType) : addBookmark(id, mediaType)
-    }, [bookmarkIds, addBookmark, deleteBookmark]);
+    }, [isBookmarkView, isLoggedIn, dispatch]);
 
 
     const emptyElement = useMemo(() => {
@@ -119,17 +49,17 @@ export function Media(props: MediaProps) {
         return mediaType === "BOOK" ? "Bücher" : "Filme"
     }, []);
 
-    const mediaTypesFetchData = useMemo(() => {
-        return fetchedData
-            .filter(media => !isBookmarkView || bookmarkIds.includes(media.id))
+    const mediaTypesMedia = useMemo(() => {
+        return media
+            .filter(m => !isBookmarkView || bookmarkIds.includes(m.id))
             .reduce((acc, curr) => {
                 const previousTypeMedia = acc[curr.mediaType] || [];
                 return {...acc, [curr.mediaType]: [...previousTypeMedia, curr]}
             }, {} as { [mediaType: string]: MediaObject[] })
-    }, [isBookmarkView, fetchedData, bookmarkIds]);
+    }, [isBookmarkView, media, bookmarkIds]);
 
     const mediaTypeElements = useMemo(() => {
-        return Object.entries(mediaTypesFetchData)
+        return Object.entries(mediaTypesMedia)
             .map(([mediaType, media]) => {
                 const title = getMediaTypeTitle(mediaType);
                 return [title, media] as [string, MediaObject[]]
@@ -143,7 +73,7 @@ export function Media(props: MediaProps) {
                                          bookmarkIds={bookmarkIds}
                                          toggleIsBookmark={toggleIsBookmark}/>
             })
-    }, [mediaTypesFetchData, getMediaTypeTitle, isBookmarkView, bookmarkIds, toggleIsBookmark]);
+    }, [mediaTypesMedia, getMediaTypeTitle, isBookmarkView, bookmarkIds, toggleIsBookmark]);
 
     return (
         <div className="media">
@@ -162,14 +92,14 @@ export function Media(props: MediaProps) {
                     </p>
                 </Visible>
                 <Visible if={!isLoading}>
-                    <Visible if={fetchedData.length === 0}>
+                    <Visible if={media.length === 0}>
                         {emptyElement}
                     </Visible>
-                    <Visible if={fetchedData.length > 0}>
+                    <Visible if={media.length > 0}>
                         {mediaTypeElements}
                     </Visible>
                 </Visible>
             </Visible>
         </div>
-    );
+    )
 }

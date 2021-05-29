@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import "./header.scss";
 import axios from "axios";
-import {ReducerState} from "../../reducer";
+import {State} from "../../reducer";
 import {showNotification} from "../notification/notificationActions";
 import {setLoggedInUsername} from "../login/loginActions";
 import {Visible} from "../visible/visible";
@@ -10,7 +10,7 @@ import {Button} from "../button/button";
 
 
 export function Header() {
-    const {isLoggedIn, username} = useSelector((state: ReducerState) => ({
+    const {isLoggedIn, username} = useSelector((state: State) => ({
         isLoggedIn: !!state.login.loggedInUsername,
         username: state.login.loggedInUsername
     }));
@@ -40,6 +40,7 @@ export function Header() {
             <div className="headerLeft">
                 <Button type="logo" title="BoreDoom" href="/"/>
                 <Button type="header" title="Fragen" href="/questions"/>
+                <Button type="header" title="Glückstreffer" href="/luckystrike"/>
                 <Button type="header" title="Merkliste" href="/bookmarks"/>
             </div>
             <Visible if={!isLoggedIn}>

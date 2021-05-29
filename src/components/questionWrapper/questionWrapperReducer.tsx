@@ -1,19 +1,35 @@
-import {ActionType, Answer} from "../../misc/types";
+import {ActionType, Answer, Question} from "../../misc/types";
 
 
 export type QuestionState = {
+    isLoading: boolean,
+    questions: Question[],
     answers: Answer[]
 }
 
 const defaultState: QuestionState = {
+    isLoading: false,
+    questions: [],
     answers: []
 }
 
 export const questionReducer = (state = defaultState, {type, payload}: ActionType) => {
     switch (type) {
-       case "UPDATE_ANSWER": {
-           let updatedAnswer: Answer = {questionId: payload.questionId, choices: []};
-           const otherAnswers = state.answers.filter(answer => {
+        case "SET_ISLOADING_QUESTIONS": {
+            return {
+                ...state,
+                isLoading: payload
+            }
+        }
+        case "SET_QUESTIONS": {
+            return {
+                ...state,
+                questions: payload
+            }
+        }
+        case "UPDATE_ANSWER": {
+            let updatedAnswer: Answer = {questionId: payload.questionId, choices: []};
+            const otherAnswers = state.answers.filter(answer => {
                 if (answer.questionId === payload.questionId) {
                     updatedAnswer = answer
                 }
@@ -44,16 +60,16 @@ export const questionReducer = (state = defaultState, {type, payload}: ActionTyp
                 ...state,
                 answers: [...otherAnswers, updatedAnswer]
             }
-       }
-       case "LOCATION_CHANGE": {
+        }
+        case "LOCATION_CHANGE": {
             if (payload.location.includes("results")) {
                 return state
             } else {
                 return defaultState
             }
-       }
-       default: {
+        }
+        default: {
             return state
-       }
+        }
     }
  }
