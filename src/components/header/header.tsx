@@ -1,10 +1,8 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import "./header.scss";
-import axios from "axios";
 import {State} from "../../reducer";
-import {showNotification} from "../notification/notificationActions";
-import {setLoggedInUsername} from "../login/loginActions";
+import {fetchIsLoggedIn, logoutUser} from "../login/loginActions";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 
@@ -14,25 +12,10 @@ export function Header() {
         isLoggedIn: !!state.login.loggedInUsername,
         username: state.login.loggedInUsername
     }));
-
     const dispatch = useDispatch();
 
     useEffect(() => {
-        axios.get<[]>("http://localhost:8082/isAuthenticated")
-            .then(response => {
-                if (response.data.toString() !== "true") {
-                    dispatch(setLoggedInUsername(""))
-                }
-            })
-            .catch(() => dispatch(setLoggedInUsername("")))
-    }, [dispatch]);
-
-    const logout = useCallback(() => {
-        axios.get<[]>("http://localhost:8082/logout")
-            .then(() => dispatch(setLoggedInUsername("")))
-            .catch(() => {
-                showNotification("activity", "Abmelden")
-            })
+        dispatch(fetchIsLoggedIn())
     }, [dispatch]);
 
     return (
@@ -53,7 +36,8 @@ export function Header() {
                     <div className="headerUser">
                         Willkommen,<br/>{username}
                     </div>
-                    <Button type="header" title="Abmelden" href="/" onClick={logout}/>
+                    <Button type="header" title="Abmelden" href="/"
+                            onClick={() => dispatch(logoutUser())}/>
                 </div>
             </Visible>
         </div>
