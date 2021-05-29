@@ -1,0 +1,11 @@
+@import "../../styles/_globals";
+
+
+.informationText {
+    text-align: justify;
+}
+
+.loading, .noResults {
+    margin-top: $huge;
+    text-align: center;
+}

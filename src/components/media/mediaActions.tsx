@@ -75,6 +75,34 @@ export function fetchResults(): ThunkAction<Promise<any>, State, any, any> {
     }
 }
 
+export function fetchLuckyStrike(): ThunkAction<Promise<any>, State, any, any> {
+    return async (dispatch: any) => {
+        //dispatch(setMedia([getMockData()[0]]))
+        //dispatch(setBookmarkIds([1]))
+        dispatch(setIsLoading(true));
+        let firstCallReady = false;
+        axios.get(`http://localhost:8082/random`)
+            .then(response => {
+                dispatch(setMedia([response.data]));
+                firstCallReady ? dispatch(setIsLoading(false)) : firstCallReady = true
+            })
+            .catch(() => {
+                showNotification("activity", "Beschaffen der Daten");
+                firstCallReady ? dispatch(setIsLoading(false)) : firstCallReady = true
+            });
+        axios.get(`http://localhost:8082/user/favorites/`)
+            .then(response => {
+                const media = response.data as MediaObject[];
+                dispatch(setBookmarkIds(media.map(({id}) => id)));
+                firstCallReady ? dispatch(setIsLoading(false)) : firstCallReady = true
+            })
+            .catch(() => {
+                showNotification("activity", "Beschaffen der Daten");
+                firstCallReady ? dispatch(setIsLoading(false)) : firstCallReady = true
+            })
+    }
+}
+
 export function fetchBookmarks(): ThunkAction<Promise<any>, State, any, any> {
     return async (dispatch: any) => {
         //dispatch(setMedia(getMockData()))
