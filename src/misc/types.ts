@@ -3,6 +3,8 @@ export type ActionType = {
     payload: any
 }
 
+export type NotificationType = "message" | "activity";
+
 export type ButtonType = "standard" | "logo" | "header" | "link";
 
 export type QuestionType = "SINGLE_CHOICE" | "MULTIPLE_CHOICE";

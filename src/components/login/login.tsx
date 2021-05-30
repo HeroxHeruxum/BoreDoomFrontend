@@ -2,26 +2,25 @@ import React, {useCallback, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import "./login.scss";
-import axios from "axios";
-import {ReducerState} from "../../reducer";
-import {setConfirmPassword, setEmail, setLoggedInUsername, setPassword, setUsername} from "./loginActions";
-import {changeLocation} from "../button/buttonActions";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import {State} from "../../reducer";
+import {
+    loginUser,
+    registerUser,
+    setConfirmPassword,
+    setEmail,
+    setPassword,
+    setUsername
+} from "./loginActions";
 import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 
 
 interface LoginProps {
-    isRegister: boolean
+    isRegisterView: boolean
 }
 
 export function Login(props: LoginProps) {
-    const {isRegister} = props;
-
-    const showNotification = useCallback((message: string) => {
-        toast.error(message)
-    }, []);
+    const {isRegisterView} = props;
 
     /**
      * Here we set up the sate of  this component. There is the possibility to use a global state with an library
@@ -29,7 +28,7 @@ export function Login(props: LoginProps) {
      * Its also often smoother and  more readable when we use the local state with a HOC and LOC structure.
      */
 
-    const {username, email, password, confirmPassword} = useSelector((state: ReducerState) => ({
+    const {username, email, password, confirmPassword} = useSelector((state: State) => ({
         username: state.login.username,
         email: state.login.email,
         password: state.login.password,
@@ -39,12 +38,12 @@ export function Login(props: LoginProps) {
     const history = useHistory();
 
     const loginHeader = useMemo(() => {
-        return isRegister ? "Registrierung" : "Anmeldung";
-    }, [isRegister]);
+        return isRegisterView ? "Registrierung" : "Anmeldung";
+    }, [isRegisterView]);
 
     const buttonTitle = useMemo(() => {
-        return isRegister ? "Registrieren" : "Anmelden";
-    }, [isRegister]);
+        return isRegisterView ? "Registrieren" : "Anmelden";
+    }, [isRegisterView]);
 
 
     /**
@@ -55,44 +54,17 @@ export function Login(props: LoginProps) {
      */
 
     const onClickButton = useCallback(() => {
-        if (isRegister) {
-            if ((username === "") || (email === "") || (password === "")) {
-                showNotification("Nicht alle Felder ausgefüllt")
-            } else if (password !== confirmPassword) {
-                showNotification("Passwörter stimmen nicht überein")
-            } else {
-                axios.post("http://localhost:8082/register", {username, email: email, password: password})
-                    .then(() => {
-                            history.push("/login");
-                            dispatch(changeLocation("/"))
-                        }
-                    )
-                    .catch((e) => {
-                        showNotification(e.response.data)
-                    })
-            }
+        if (isRegisterView) {
+            dispatch(registerUser(history))
         } else {
-            if ((username === "") || (password === "")) {
-                showNotification("Nicht alle Felder ausgefüllt")
-            } else {
-                axios.post("http://localhost:8082/login", {username, password})
-                    .then(() => {
-                        dispatch(setLoggedInUsername(username));
-                        history.push("/");
-                        dispatch(changeLocation("/"))
-                    })
-                    .catch((e) => {
-                        console.log("error", e)
-                        showNotification(e.response.data)
-                    })
-            }
+            dispatch(loginUser(history))
         }
-    }, [isRegister, username, email, password, confirmPassword, showNotification, dispatch, history]);
+    }, [isRegisterView, dispatch, history]);
 
     /**
      * This component makes use of the React component <Visible/> this component enables
      * to control the visibility of its children props. This way you can reduce duplicated code and
-     * places where u might end up to adjust things in case of a change; We Control this with the isRegister prop
+     * places where u might end up to adjust things in case of a change; We Control this with the isRegisterView prop
      */
 
     return (
@@ -108,7 +80,7 @@ export function Login(props: LoginProps) {
                        value={username} autoFocus={true}
                        onChange={e => dispatch(setUsername(e.target.value))}/>
             </div>
-            <Visible if={isRegister}>
+            <Visible if={isRegisterView}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         E-Mail-Adresse
@@ -124,7 +96,7 @@ export function Login(props: LoginProps) {
                 <input className="loginInput" type="password" value={password}
                        onChange={e => dispatch(setPassword(e.target.value))}/>
             </div>
-            <Visible if={isRegister}>
+            <Visible if={isRegisterView}>
                 <div className="loginInputWrapper">
                     <div className="loginInputHeader">
                         Passwort bestätigen
@@ -134,17 +106,16 @@ export function Login(props: LoginProps) {
                            onChange={e => dispatch(setConfirmPassword(e.target.value))}/>
                 </div>
             </Visible>
-            <ToastContainer/>
             <div className="loginButtonWrapper">
                 <Button type="standard" title={buttonTitle}
                         onClick={onClickButton}/>
-                <Visible if={!isRegister}>
+                <Visible if={!isRegisterView}>
                     <div className="registerLink">
                         <Button type="link" title="Registrieren"
                                 href="/register"/>
                     </div>
                 </Visible>
-                <Visible if={isRegister}>
+                <Visible if={isRegisterView}>
                     <div className="registerLink">
                         <Button type="link" title="Zurück zum Login"
                                 href="/login"/>

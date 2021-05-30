@@ -6,10 +6,12 @@ import {Visible} from "../visible/visible";
 import {Button} from "../button/button";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
+import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 
 interface MediaElementProps extends MediaObject {
+    isBookmarkView: boolean,
     isBookmark: boolean,
     toggleIsBookmark: (id: number, mediaType: string) => void
 }
@@ -22,6 +24,7 @@ export function MediaElement(props: MediaElementProps) {
         name,
         description,
         producerUrl,
+        isBookmarkView,
         isBookmark,
         toggleIsBookmark
     } = props;
@@ -53,13 +56,19 @@ export function MediaElement(props: MediaElementProps) {
             <div className="bookmarkIconWrapper">
                 <Tooltip title={bookmarkIconTitle}>
                     <div className="bookmarkIcon">
-                        <Visible if={isBookmark}>
+                        <Visible if={isBookmarkView}>
                             <DeleteIcon className="deleteIcon"
                                         onClick={onClickBookmarkIcon}/>
                         </Visible>
-                        <Visible if={!isBookmark}>
-                            <StarBorderIcon className="addIcon"
-                                            onClick={onClickBookmarkIcon}/>
+                        <Visible if={!isBookmarkView}>
+                            <Visible if={isBookmark}>
+                                <StarIcon className="deleteIcon"
+                                          onClick={onClickBookmarkIcon}/>
+                            </Visible>
+                            <Visible if={!isBookmark}>
+                                <StarBorderIcon className="addIcon"
+                                                onClick={onClickBookmarkIcon}/>
+                            </Visible>
                         </Visible>
                     </div>
                 </Tooltip>

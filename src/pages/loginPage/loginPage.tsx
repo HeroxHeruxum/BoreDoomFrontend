@@ -5,13 +5,13 @@ import {Login} from "../../components/login/login";
 
 
 export function LoginPage(props: RouteProps) {
-    const register = useMemo(() => {
+    const isRegisterView = useMemo(() => {
         return !!props.location?.pathname.includes("register")
     }, [props]);
 
     return (
         <PageContainer>
-            <Login isRegister={register}/>
+            <Login isRegisterView={isRegisterView}/>
         </PageContainer>
     );
 }
