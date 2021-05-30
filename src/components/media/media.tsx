@@ -24,7 +24,7 @@ export function Media(props: MediaProps) {
 
     useEffect(() => {
         if (isBookmarkView && isLoggedIn) {
-            fetchBookmarks()
+            dispatch(fetchBookmarks())
         } else if (!isBookmarkView) {
             dispatch(fetchResults())
         }
