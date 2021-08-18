@@ -49,7 +49,7 @@ export const loginReducer = (state = defaultState, {type, payload}: ActionType) 
                 confirmPassword: payload
             }
         }
-        case "LOCATION_CHANGE": {
+       /** case "LOCATION_CHANGE": {
             const isLogin = payload.location.includes("login");
             const isRegister = payload.location.includes("register");
             if (isLogin || isRegister) {
@@ -57,7 +57,7 @@ export const loginReducer = (state = defaultState, {type, payload}: ActionType) 
             } else {
                 return defaultState
             }
-        }
+        }**/
         default: {
             return state
         }

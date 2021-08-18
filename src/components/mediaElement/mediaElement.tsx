@@ -8,6 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import {useDispatch} from "react-redux";
 
 
 interface MediaElementProps extends MediaObject {
@@ -30,13 +31,14 @@ export function MediaElement(props: MediaElementProps) {
     } = props;
 
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const bookmarkIconTitle = useMemo(() => {
         return isBookmark ? "Aus Merkliste entfernen" : "Zur Merkliste hinzufügen"
     }, [isBookmark]);
     const onClickBookmarkIcon = useCallback(() => {
-        return toggleIsBookmark(id, mediaType)
-    }, [id, mediaType, toggleIsBookmark]);
+        return dispatch(toggleIsBookmark(id, mediaType))
+    }, [id, mediaType]);
 
     return (
         <div className="mediaElement">

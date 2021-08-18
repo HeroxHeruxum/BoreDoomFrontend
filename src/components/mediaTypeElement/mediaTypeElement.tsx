@@ -13,16 +13,17 @@ interface MediaTypeElementProps {
 }
 
 export function MediaTypeElement(props: MediaTypeElementProps) {
-    const {title, media, isBookmarkView, bookmarkIds, toggleIsBookmark} = props;
+    const {title, media, isBookmarkView, bookmarkIds,toggleIsBookmark} = props;
 
     const mediaElements = useMemo(() => {
         return media.map(medium => {
             const isBookmark = bookmarkIds.includes(medium.id);
             return <MediaElement {...medium} isBookmarkView={isBookmarkView}
                                  isBookmark={isBookmark}
-                                 toggleIsBookmark={toggleIsBookmark}/>
+                                 toggleIsBookmark={toggleIsBookmark}
+                                 />
         })
-    }, [media, isBookmarkView, bookmarkIds, toggleIsBookmark]);
+    },[]);
 
 
     return (
