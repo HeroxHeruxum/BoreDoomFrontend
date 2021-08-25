@@ -76,7 +76,7 @@ export function loginUser(history: any): ThunkAction<Promise<any>, State, any, a
                 await axios.post("http://localhost:8082/login", {username, password});
                 dispatch(setLoggedInUsername(username));
                 history.push("/");
-                dispatch(changeLocation("/"))
+              //  dispatch(changeLocation("/"))
             }
         } catch (error) {
             const errorMessage = error.response?.data;

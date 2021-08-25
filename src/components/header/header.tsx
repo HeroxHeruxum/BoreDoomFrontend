@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import "./header.scss";
 import {State} from "../../reducer";
@@ -16,10 +16,11 @@ export function Header() {
 
     useEffect(() => {
         dispatch(fetchIsLoggedIn())
-    }, [dispatch]);
+    }, [isLoggedIn]);
 
     return (
         <div className="header">
+            {console.error(isLoggedIn, username)}
             <div className="headerLeft">
                 <Button type="logo" title="BoreDoom" href="/"/>
                 <Button type="header" title="Fragen" href="/questions"/>

@@ -89,6 +89,7 @@ export function toggleIsBookmark(id: number, mediaType: string) {
     return async (dispatch: any, getState: () => State) => {
         const bookmarkIds = getState().media.bookmarkIds;
         const isBookmark = bookmarkIds.includes(id);
+        dispatch(setIsLoading(true));
         try {
             if (isBookmark) {
                 await axios.put(`http://localhost:8082/user/favorites/deleteMedia?mediaId=${id}&mediaType=${mediaType}`)
@@ -99,5 +100,6 @@ export function toggleIsBookmark(id: number, mediaType: string) {
         } catch {
             showNotification("activity", `${isBookmark ? "Entfernen von der" : "Hinzufügen zur"} Merkliste`)
         }
+        dispatch(setIsLoading(false));
     }
 }

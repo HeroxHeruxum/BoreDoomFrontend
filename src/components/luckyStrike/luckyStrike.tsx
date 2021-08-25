@@ -50,7 +50,8 @@ export function LuckyStrike() {
                     <MediaElement {...media[0]}
                                   isBookmarkView={false}
                                   isBookmark={bookmarkIds.includes(media[0]?.id)}
-                                  toggleIsBookmark={toggleIsBookmark}/>
+                                  toggleIsBookmark={toggleIsBookmark}
+                                  />
                 </Visible>
             </Visible>
         </div>
